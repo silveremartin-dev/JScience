@@ -135,12 +135,20 @@ public final class Natural implements ScalarType<Natural>, Semiring<Natural> {
         return true;
     }
 
-    // --- ScalarType Implementation ---
+    // --- Convenience Instance Methods (delegates to Naturals structure) ---
 
+    /**
+     * Adds another natural number (convenience method).
+     * Delegates to {@link org.jscience.mathematics.number.set.Naturals}.
+     */
     public Natural add(Natural other) {
-        return add(this, other);
+        return org.jscience.mathematics.number.set.Naturals.getInstance().add(this, other);
     }
 
+    /**
+     * Subtracts another natural number (convenience method).
+     * Delegates to {@link org.jscience.mathematics.number.set.Naturals}.
+     */
     public Natural subtract(Natural other) {
         BigInteger result = this.value.subtract(other.value);
         if (result.signum() < 0) {
@@ -149,8 +157,12 @@ public final class Natural implements ScalarType<Natural>, Semiring<Natural> {
         return new Natural(result);
     }
 
+    /**
+     * Multiplies by another natural number (convenience method).
+     * Delegates to {@link org.jscience.mathematics.number.set.Naturals}.
+     */
     public Natural multiply(Natural other) {
-        return multiply(this, other);
+        return org.jscience.mathematics.number.set.Naturals.getInstance().multiply(this, other);
     }
 
     public Natural divide(Natural other) {
@@ -197,4 +209,5 @@ public final class Natural implements ScalarType<Natural>, Semiring<Natural> {
     public String toString() {
         return value.toString();
     }
+
 }

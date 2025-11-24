@@ -112,18 +112,30 @@ public final class LongScalar implements ScalarType<LongScalar>, Ring<LongScalar
         return true;
     }
 
-    // --- ScalarType Implementation ---
+    // --- Convenience Instance Methods (delegates to Integers structure) ---
 
+    /**
+     * Adds another integer (convenience method).
+     * Delegates to {@link org.jscience.mathematics.number.set.Integers}.
+     */
     public LongScalar add(LongScalar other) {
-        return add(this, other);
+        return org.jscience.mathematics.number.set.Integers.getInstance().add(this, other);
     }
 
+    /**
+     * Subtracts another integer (convenience method).
+     * Delegates to {@link org.jscience.mathematics.number.set.Integers}.
+     */
     public LongScalar subtract(LongScalar other) {
         return new LongScalar(this.value - other.value);
     }
 
+    /**
+     * Multiplies by another integer (convenience method).
+     * Delegates to {@link org.jscience.mathematics.number.set.Integers}.
+     */
     public LongScalar multiply(LongScalar other) {
-        return multiply(this, other);
+        return org.jscience.mathematics.number.set.Integers.getInstance().multiply(this, other);
     }
 
     public LongScalar divide(LongScalar other) {
@@ -133,8 +145,12 @@ public final class LongScalar implements ScalarType<LongScalar>, Ring<LongScalar
         return new LongScalar(this.value / other.value);
     }
 
+    /**
+     * Negates this integer (convenience method).
+     * Delegates to {@link org.jscience.mathematics.number.set.Integers}.
+     */
     public LongScalar negate() {
-        return negate(this);
+        return org.jscience.mathematics.number.set.Integers.getInstance().negate(this);
     }
 
     public boolean isZero() {
