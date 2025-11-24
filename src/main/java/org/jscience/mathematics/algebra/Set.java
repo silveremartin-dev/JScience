@@ -26,26 +26,30 @@ package org.jscience.mathematics.algebra;
 /**
  * Represents a mathematical set - a collection of distinct elements.
  * <p>
- * This is the foundational concept in mathematics. A set has no additional structure
- * beyond membership. Higher-level structures (Magma, Group, Ring, Field) add operations
+ * This is the foundational concept in mathematics. A set has no additional
+ * structure
+ * beyond membership. Higher-level structures (Magma, Group, Ring, Field) add
+ * operations
  * and properties to sets.
  * </p>
  * 
  * <h2>Mathematical Definition</h2>
  * <p>
- * A set S is a well-defined collection of distinct objects, considered as a whole.
+ * A set S is a well-defined collection of distinct objects, considered as a
+ * whole.
  * The objects are called elements or members of the set.
  * </p>
  * 
  * <h2>Examples</h2>
  * <ul>
- *   <li>ℕ = {0, 1, 2, 3, ...} - Natural numbers</li>
- *   <li>ℤ = {..., -2, -1, 0, 1, 2, ...} - Integers</li>
- *   <li>ℝ - Real numbers</li>
- *   <li>ℂ - Complex numbers</li>
+ * <li>ℕ = {0, 1, 2, 3, ...} - Natural numbers</li>
+ * <li>ℤ = {..., -2, -1, 0, 1, 2, ...} - Integers</li>
+ * <li>ℝ - Real numbers</li>
+ * <li>ℂ - Complex numbers</li>
  * </ul>
  * 
  * <h2>Usage in JScience</h2>
+ * 
  * <pre>{@code
  * // Set is the base for all algebraic structures
  * Set<Integer> integers = IntegerSet.getInstance();
@@ -69,7 +73,7 @@ package org.jscience.mathematics.algebra;
  * @see Field
  */
 public interface Set<E> {
-    
+
     /**
      * Tests whether this set contains the specified element.
      * <p>
@@ -77,14 +81,16 @@ public interface Set<E> {
      * </p>
      * 
      * @param element the element to test for membership
-     * @return {@code true} if this set contains the element, {@code false} otherwise
-     * @throws NullPointerException if the element is null and this set does not permit null elements
+     * @return {@code true} if this set contains the element, {@code false}
+     *         otherwise
+     * @throws NullPointerException if the element is null and this set does not
+     *                              permit null elements
      * 
      * @see #isEmpty()
      * @see #size()
      */
     boolean contains(E element);
-    
+
     /**
      * Returns {@code true} if this set contains no elements.
      * <p>
@@ -93,50 +99,17 @@ public interface Set<E> {
      * </p>
      * 
      * @return {@code true} if this set is empty
-     * 
-     * @see #size()
      */
-    default boolean isEmpty() {
-        return size() == 0;
-    }
-    
-    /**
-     * Returns the number of elements in this set (its cardinality).
-     * <p>
-     * For infinite sets, this should return {@link Integer#MAX_VALUE}.
-     * </p>
-     * 
-     * @return the cardinality of this set
-     * 
-     * @see #isEmpty()
-     * @see #isFinite()
-     */
-    int size();
-    
-    /**
-     * Returns {@code true} if this set is finite (has finite cardinality).
-     * <p>
-     * Examples:
-     * <ul>
-     *   <li>Finite: {1, 2, 3}, ℤ/nℤ (integers modulo n)</li>
-     *   <li>Infinite: ℕ, ℤ, ℚ, ℝ, ℂ</li>
-     * </ul>
-     * </p>
-     * 
-     * @return {@code true} if this set is finite, {@code false} if infinite
-     * 
-     * @see #size()
-     */
-    boolean isFinite();
-    
+    boolean isEmpty();
+
     /**
      * Returns a human-readable description of this set.
      * <p>
      * Examples:
      * <ul>
-     *   <li>"ℝ (Real Numbers)"</li>
-     *   <li>"ℤ/12ℤ (Integers modulo 12)"</li>
-     *   <li>"{1, 2, 3, 4, 5}"</li>
+     * <li>"ℝ (Real Numbers)"</li>
+     * <li>"ℤ/12ℤ (Integers modulo 12)"</li>
+     * <li>"{1, 2, 3, 4, 5}"</li>
      * </ul>
      * </p>
      * 

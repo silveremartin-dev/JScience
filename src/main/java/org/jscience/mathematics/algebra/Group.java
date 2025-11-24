@@ -85,86 +85,25 @@ package org.jscience.mathematics.algebra;
  * @see Ring
  * @see Field
  */
-public interface Group<E> extends Magma<E> {
-
-    /**
-     * Returns the identity element of this group.
-     * <p>
-     * The identity element e satisfies: e ∗ a = a ∗ e = a for all a in the group.
-     * </p>
-     * <p>
-     * Examples:
-     * <ul>
-     * <li>Addition groups: 0</li>
-     * <li>Multiplication groups: 1</li>
-     * <li>Matrix groups: Identity matrix</li>
-     * </ul>
-     * </p>
-     * 
-     * @return the unique identity element
-     * 
-     * @see #inverse(Object)
-     */
-    E identity();
+public interface Group<E> extends Monoid<E> {
 
     /**
      * Returns the inverse of the given element.
      * <p>
      * For element a, returns a⁻¹ such that: a ∗ a⁻¹ = a⁻¹ ∗ a = e (identity).
      * </p>
-     * <p>
-     * Examples:
-     * <ul>
-     * <li>Additive inverse: inverse(5) = -5</li>
-     * <li>Multiplicative inverse: inverse(2) = 0.5</li>
-     * <li>Matrix inverse: inverse(A) = A⁻¹</li>
-     * </ul>
-     * </p>
      * 
      * @param element the element to invert
      * @return the inverse element
      * @throws NullPointerException     if element is null
      * @throws IllegalArgumentException if element is not in this group
-     * 
-     * @see #identity()
-     * @see #operate(Object, Object)
      */
     E inverse(E element);
 
     /**
-     * Groups are always associative.
-     * 
-     * @return always {@code true}
-     */
-    @Override
-    default boolean isAssociative() {
-        return true;
-    }
-
-    /**
      * Tests whether this is an abelian (commutative) group.
-     * <p>
-     * An abelian group satisfies: a ∗ b = b ∗ a for all elements a, b.
-     * </p>
-     * <p>
-     * Examples of abelian groups:
-     * <ul>
-     * <li>(ℤ, +) - Integer addition</li>
-     * <li>(ℝ, +) - Real addition</li>
-     * <li>(ℂ*, ×) - Non-zero complex multiplication</li>
-     * </ul>
-     * </p>
-     * <p>
-     * Examples of non-abelian groups:
-     * <ul>
-     * <li>S₃ - Permutations of 3 elements</li>
-     * <li>GL(n, ℝ) - General linear group</li>
-     * </ul>
-     * </p>
      * 
      * @return {@code true} if this group is abelian
-     * 
-     * @see AbelianGroup
      */
     @Override
     boolean isCommutative();

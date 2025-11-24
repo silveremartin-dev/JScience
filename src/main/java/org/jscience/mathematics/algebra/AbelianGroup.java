@@ -90,40 +90,7 @@ package org.jscience.mathematics.algebra;
  * @see Ring
  * @see Field
  */
-public interface AbelianGroup<E> extends Group<E> {
-
-    /**
-     * Returns the sum of two elements (additive notation).
-     * <p>
-     * This is the group operation in additive notation.
-     * Satisfies commutativity: a + b = b + a
-     * </p>
-     * 
-     * @param a the first addend
-     * @param b the second addend
-     * @return a + b
-     * @throws NullPointerException if either argument is null
-     * 
-     * @see #operate(Object, Object)
-     * @see #subtract(Object, Object)
-     */
-    default E add(E a, E b) {
-        return operate(a, b);
-    }
-
-    /**
-     * Returns the additive identity (zero element).
-     * <p>
-     * Satisfies: 0 + a = a + 0 = a for all elements a.
-     * </p>
-     * 
-     * @return the zero element
-     * 
-     * @see #identity()
-     */
-    default E zero() {
-        return identity();
-    }
+public interface AbelianGroup<E> extends Group<E>, AbelianMonoid<E> {
 
     /**
      * Returns the additive inverse (negation) of an element.

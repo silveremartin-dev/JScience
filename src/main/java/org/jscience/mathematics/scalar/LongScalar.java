@@ -23,145 +23,148 @@
 
 package org.jscience.mathematics.scalar;
 
+import org.jscience.mathematics.algebra.Ring;
+
 /**
- * 64-bit integer scalar operations.
+ * Represents a 64-bit integer scalar.
  * <p>
- * LongScalar provides exact arithmetic for integers in range [-2⁶³, 2⁶³-1],
- * extending the range of {@link IntScalar} by 32 bits.
+ * This class wraps a primitive {@code long} value and implements the
+ * {@link Ring}
+ * interface. It is suitable for integer arithmetic where 64-bit precision is
+ * sufficient.
  * </p>
- * 
- * <h2>When to Use</h2>
- * <ul>
- * <li>✅ Large integer computations (>2³¹)</li>
- * <li>✅ Combinatorics (factorials, binomial coefficients)</li>
- * <li>✅ Cryptography (key sizes, modular arithmetic)</li>
- * <li>✅ Big data (counts, IDs, timestamps)</li>
- * <li>✅ Number theory</li>
- * </ul>
- * 
- * <h2>Range Comparison</h2>
- * 
- * <pre>
- * Type      Range
- * Byte      -128 to 127
- * Int       -2,147,483,648 to 2,147,483,647
- * Long      -9,223,372,036,854,775,808 to 9,223,372,036,854,775,807
- * </pre>
- * 
- * <h2>Examples</h2>
- * 
- * <pre>{@code
- * ScalarType<Long> scalar = new LongScalar();
- * 
- * // Factorial(20) = 2,432,902,008,176,640,000 (overflows int!)
- * Long fact20 = factorial(20, scalar);
- * 
- * // Large Fibonacci numbers
- * Long fib50 = fibonacci(50, scalar); // 12,586,269,025
- * 
- * // Cryptography: 2^63 - 1 (Mersenne prime)
- * Long largePrime = scalar.subtract(
- *         scalar.pow(scalar.fromInt(2), 63),
- *         scalar.one());
- * }</pre>
  * 
  * @author Silvere Martin-Michiellot
  * @author Gemini AI (Google DeepMind)
- * @version 1.0
  * @since 1.0
- * 
- * @see IntScalar
- * @see ScalarType
  */
-public final class LongScalar implements ScalarType<Long> {
+public final class LongScalar implements ScalarType<LongScalar>, Ring<LongScalar> {
 
-    /** Singleton instance */
-    private static final LongScalar INSTANCE = new LongScalar();
+    /** The scalar value 0. */
+    public static final LongScalar ZERO = new LongScalar(0L);
 
-    public static LongScalar getInstance() {
-        return INSTANCE;
+    /** The scalar value 1. */
+    public static final LongScalar ONE = new LongScalar(1L);
+
+    private final long value;
+
+    /**
+     * Creates a new LongScalar.
+     * 
+     * @param value the value
+     */
+    private LongScalar(long value) {
+        this.value = value;
     }
 
-    public LongScalar() {
+    /**
+     * Returns a LongScalar with the specified value.
+     * 
+     * @param value the value
+     * @return the LongScalar instance
+     */
+    public static LongScalar of(long value) {
+        if (value == 0)
+            return ZERO;
+        if (value == 1)
+            return ONE;
+        return new LongScalar(value);
+    }
+
+    /**
+     * Returns the value as a long.
+     * 
+     * @return the value
+     */
+    public long getValue() {
+        return value;
+    }
+
+    // --- Ring Implementation ---
+
+    @Override
+    public LongScalar add(LongScalar a, LongScalar b) {
+        return new LongScalar(a.value + b.value);
     }
 
     @Override
-    public Long zero() {
-        return 0L;
+    public LongScalar zero() {
+        return ZERO;
     }
 
     @Override
-    public Long one() {
-        return 1L;
+    public LongScalar negate(LongScalar element) {
+        return new LongScalar(-element.value);
     }
 
     @Override
-    public Long add(Long a, Long b) {
-        return a + b;
+    public LongScalar multiply(LongScalar a, LongScalar b) {
+        return new LongScalar(a.value * b.value);
     }
 
     @Override
-    public Long subtract(Long a, Long b) {
-        return a - b;
+    public LongScalar one() {
+        return ONE;
     }
 
     @Override
-    public Long multiply(Long a, Long b) {
-        return a * b;
+    public boolean isMultiplicationCommutative() {
+        return true;
     }
 
-    @Override
-    public Long divide(Long a, Long b) {
-        if (b == 0L) {
+    // --- ScalarType Implementation ---
+
+    public LongScalar add(LongScalar other) {
+        return add(this, other);
+    }
+
+    public LongScalar subtract(LongScalar other) {
+        return new LongScalar(this.value - other.value);
+    }
+
+    public LongScalar multiply(LongScalar other) {
+        return multiply(this, other);
+    }
+
+    public LongScalar divide(LongScalar other) {
+        if (other.value == 0) {
             throw new ArithmeticException("Division by zero");
         }
-        return a / b; // Integer division
+        return new LongScalar(this.value / other.value);
+    }
+
+    public LongScalar negate() {
+        return negate(this);
+    }
+
+    public boolean isZero() {
+        return value == 0;
+    }
+
+    public boolean isOne() {
+        return value == 1;
+    }
+
+    public int compareTo(LongScalar other) {
+        return Long.compare(this.value, other.value);
     }
 
     @Override
-    public Long negate(Long a) {
-        return -a;
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!(obj instanceof LongScalar))
+            return false;
+        return this.value == ((LongScalar) obj).value;
     }
 
     @Override
-    public Long inverse(Long a) {
-        if (a == 0L) {
-            throw new ArithmeticException("Division by zero");
-        }
-        if (a == 1L)
-            return 1L;
-        if (a == -1L)
-            return -1L;
-        throw new ArithmeticException("Integer has no integer inverse: " + a);
-    }
-
-    @Override
-    public Long abs(Long a) {
-        return Math.abs(a);
-    }
-
-    @Override
-    public int compare(Long a, Long b) {
-        return Long.compare(a, b);
-    }
-
-    @Override
-    public Long fromInt(int value) {
-        return (long) value;
-    }
-
-    @Override
-    public Long fromDouble(double value) {
-        return (long) value;
-    }
-
-    @Override
-    public double toDouble(Long value) {
-        return value.doubleValue();
+    public int hashCode() {
+        return Long.hashCode(value);
     }
 
     @Override
     public String toString() {
-        return "LongScalar";
+        return Long.toString(value);
     }
 }

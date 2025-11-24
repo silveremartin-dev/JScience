@@ -97,7 +97,7 @@ package org.jscience.mathematics.algebra;
  * @see Set
  * @see Ring
  */
-public final class BooleanAlgebra {
+public final class BooleanAlgebra implements Semiring<Boolean>, FiniteSet<Boolean> {
 
     /** Singleton instance for standard Boolean algebra */
     private static final BooleanAlgebra INSTANCE = new BooleanAlgebra();
@@ -115,23 +115,71 @@ public final class BooleanAlgebra {
     private BooleanAlgebra() {
     }
 
-    /**
-     * Returns the identity for AND (top element).
-     * 
-     * @return true (1)
-     */
+    // --- Semiring Implementation ---
+
+    @Override
+    public Boolean operate(Boolean a, Boolean b) {
+        return add(a, b); // Boolean operation is OR
+    }
+
+    @Override
+    public Boolean add(Boolean a, Boolean b) {
+        return or(a, b);
+    }
+
+    @Override
+    public Boolean zero() {
+        return Boolean.FALSE;
+    }
+
+    @Override
+    public Boolean multiply(Boolean a, Boolean b) {
+        return and(a, b);
+    }
+
+    @Override
     public Boolean one() {
         return Boolean.TRUE;
     }
 
-    /**
-     * Returns the identity for OR (bottom element).
-     * 
-     * @return false (0)
-     */
-    public Boolean zero() {
-        return Boolean.FALSE;
+    @Override
+    public boolean isMultiplicationCommutative() {
+        return true;
     }
+
+    // --- FiniteSet Implementation ---
+
+    @Override
+    public long size() {
+        return 2;
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return false;
+    }
+
+    @Override
+    public boolean contains(Boolean element) {
+        return element != null;
+    }
+
+    @Override
+    public java.util.Iterator<Boolean> iterator() {
+        return java.util.List.of(Boolean.FALSE, Boolean.TRUE).iterator();
+    }
+
+    @Override
+    public java.util.stream.Stream<Boolean> stream() {
+        return java.util.stream.Stream.of(Boolean.FALSE, Boolean.TRUE);
+    }
+
+    @Override
+    public String description() {
+        return "{false, true}";
+    }
+
+    // --- Boolean Algebra Operations ---
 
     /**
      * Logical AND (conjunction, meet, ∧).

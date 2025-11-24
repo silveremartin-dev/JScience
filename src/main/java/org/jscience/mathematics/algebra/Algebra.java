@@ -1,0 +1,72 @@
+/*
+ * JScience Reimagined - Unified Scientific Computing Framework
+ * Copyright (c) 2025 Silvere Martin-Michiellot
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+package org.jscience.mathematics.algebra;
+
+/**
+ * An algebra over a field is a vector space equipped with a bilinear product.
+ * 
+ * <h2>Mathematical Definition</h2>
+ * <p>
+ * An algebra A over a field K is a vector space equipped with a binary
+ * operation
+ * (x, y) ↦ x · y such that for all x, y, z ∈ A and a, b ∈ K:
+ * <ul>
+ * <li>(x + y) · z = x · z + y · z</li>
+ * <li>x · (y + z) = x · y + x · z</li>
+ * <li>(ax) · (by) = (ab) (x · y)</li>
+ * </ul>
+ * </p>
+ * 
+ * <h2>Examples</h2>
+ * <ul>
+ * <li>Square matrices (Mₙ(K))</li>
+ * <li>Polynomials (K[x])</li>
+ * <li>Complex numbers (as ℝ-algebra)</li>
+ * <li>Quaternions (as ℝ-algebra)</li>
+ * <li>Lie Algebras (with bracket [x,y] as product)</li>
+ * </ul>
+ * 
+ * @param <E> the type of algebra elements
+ * @param <F> the type of scalars
+ * 
+ * @see VectorSpace
+ * @see Ring
+ * @author Silvere Martin-Michiellot
+ * @author Gemini AI (Google DeepMind)
+ * @since 1.0
+ */
+public interface Algebra<E, F> extends VectorSpace<E, F>, Ring<E> {
+
+    /**
+     * The bilinear product operation.
+     * <p>
+     * This is the same as the Ring multiplication, but explicitly
+     * viewed as the algebra product.
+     * </p>
+     */
+    @Override
+    default E multiply(E a, E b) {
+        return operate(a, b); // From Magma/Ring
+    }
+}

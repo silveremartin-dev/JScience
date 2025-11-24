@@ -105,104 +105,21 @@ package org.jscience.mathematics.algebra;
  * @see AbelianGroup
  * @see Field
  */
-public interface Ring<E> extends AbelianGroup<E> {
-
-    /**
-     * Returns the product of two elements.
-     * <p>
-     * Multiplication must be associative and distribute over addition:
-     * <ul>
-     * <li>(a × b) × c = a × (b × c)</li>
-     * <li>a × (b + c) = (a × b) + (a × c)</li>
-     * <li>(a + b) × c = (a × c) + (b × c)</li>
-     * </ul>
-     * </p>
-     * 
-     * @param a the first factor
-     * @param b the second factor
-     * @return a × b
-     * @throws NullPointerException if either argument is null
-     * 
-     * @see #isCommutative()
-     * @see #one()
-     */
-    E multiply(E a, E b);
-
-    /**
-     * Returns the multiplicative identity (one element), if it exists.
-     * <p>
-     * Satisfies: 1 × a = a × 1 = a for all elements a.
-     * </p>
-     * <p>
-     * Not all rings have a multiplicative identity (e.g., even integers).
-     * If this ring doesn't have one, this method throws
-     * {@code UnsupportedOperationException}.
-     * </p>
-     * 
-     * @return the multiplicative identity
-     * @throws UnsupportedOperationException if this ring has no unity
-     * 
-     * @see #hasUnity()
-     * @see #zero()
-     */
-    E one();
+public interface Ring<E> extends AbelianGroup<E>, Semiring<E> {
 
     /**
      * Tests whether this ring has a multiplicative identity.
+     * <p>
+     * Since this interface extends Semiring, it is generally expected to have
+     * unity.
+     * However, some definitions of Ring do not require it (Rng).
+     * </p>
      * 
      * @return {@code true} if this ring has unity (element 1)
      * 
      * @see #one()
      */
-    boolean hasUnity();
-
-    /**
-     * Tests whether multiplication is commutative in this ring.
-     * <p>
-     * A commutative ring satisfies: a × b = b × a for all elements.
-     * </p>
-     * <p>
-     * Examples:
-     * <ul>
-     * <li>Commutative: ℤ, ℝ, ℂ, ℚ[x] (polynomials)</li>
-     * <li>Non-commutative: M₂(ℝ) (matrices), ℍ (quaternions)</li>
-     * </ul>
-     * </p>
-     * 
-     * @return {@code true} if multiplication commutes
-     */
-    boolean isMultiplicationCommutative();
-
-    /**
-     * Returns the nth power of an element.
-     * <p>
-     * Defined as:
-     * <ul>
-     * <li>a⁰ = 1 (if unity exists)</li>
-     * <li>aⁿ = a × a × ... × a (n times) for n > 0</li>
-     * </ul>
-     * </p>
-     * 
-     * @param element the base
-     * @param n       the exponent (must be non-negative)
-     * @return element^n
-     * @throws IllegalArgumentException      if n < 0
-     * @throws UnsupportedOperationException if n = 0 and ring has no unity
-     * 
-     * @see #one()
-     */
-    default E pow(E element, int n) {
-        if (n < 0) {
-            throw new IllegalArgumentException("Negative exponents require Field");
-        }
-        if (n == 0) {
-            return one();
-        }
-
-        E result = element;
-        for (int i = 1; i < n; i++) {
-            result = multiply(result, element);
-        }
-        return result;
+    default boolean hasUnity() {
+        return true;
     }
 }
