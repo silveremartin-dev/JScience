@@ -38,7 +38,7 @@ import org.jscience.mathematics.algebra.Ring;
  * @author Gemini AI (Google DeepMind)
  * @since 1.0
  */
-public final class LongScalar implements ScalarType<LongScalar>, Ring<LongScalar> {
+public final class LongScalar implements Comparable<LongScalar> {
 
     /** The scalar value 0. */
     public static final LongScalar ZERO = new LongScalar(0L);

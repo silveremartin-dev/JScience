@@ -111,6 +111,16 @@ public final class Integers implements Ring<LongScalar>, InfiniteSet<LongScalar>
         return true;
     }
 
+    @Override
+    public LongScalar inverse(LongScalar element) {
+        // Integers don't have multiplicative inverses in general
+        if (element.getValue() == 1 || element.getValue() == -1) {
+            return element; // Only ±1 are self-inverse
+        }
+        throw new UnsupportedOperationException(
+                "Multiplicative inverse not defined for integers (use Rationals instead)");
+    }
+
     // --- InfiniteSet Implementation ---
 
     @Override
