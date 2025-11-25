@@ -25,7 +25,7 @@ package org.jscience.mathematics.number.set;
 
 import org.jscience.mathematics.algebra.Semiring;
 import org.jscience.mathematics.algebra.InfiniteSet;
-import org.jscience.mathematics.scalar.Natural;
+import org.jscience.mathematics.number.Natural;
 import java.util.stream.Stream;
 
 /**
@@ -89,7 +89,7 @@ public final class Naturals implements Semiring<Natural>, InfiniteSet<Natural> {
 
     @Override
     public Natural add(Natural a, Natural b) {
-        return Natural.of(a.getValue().add(b.getValue()));
+        return Natural.of(a.bigIntegerValue().add(b.bigIntegerValue()));
     }
 
     @Override
@@ -99,7 +99,7 @@ public final class Naturals implements Semiring<Natural>, InfiniteSet<Natural> {
 
     @Override
     public Natural multiply(Natural a, Natural b) {
-        return Natural.of(a.getValue().multiply(b.getValue()));
+        return Natural.of(a.bigIntegerValue().multiply(b.bigIntegerValue()));
     }
 
     @Override
