@@ -33,25 +33,7 @@ import org.jscience.mathematics.algebra.Field;
  * 
  * @param <T> the underlying scalar type (Double, BigDecimal, etc.)
  */
-public final class Complex<T> {
-
-    private final T real;
-    private final T imag;
-    private final ScalarType<T> scalar;
-
-    public Complex(T real, T imag, ScalarType<T> scalar) {
-        this.real = real;
-        this.imag = imag;
-        this.scalar = scalar;
-    }
-
-    public T getReal() {
-        return real;
-    }
-
-    public T getImaginary() {
-        return imag;
-    }
+public record Complex<T>(T real, T imag, ScalarType<T> scalar) {
 
     public Complex<T> add(Complex<T> other) {
         return new Complex<>(

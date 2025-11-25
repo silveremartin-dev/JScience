@@ -25,7 +25,7 @@ package org.jscience.mathematics.number.set;
 
 import org.jscience.mathematics.algebra.Ring;
 import org.jscience.mathematics.algebra.InfiniteSet;
-import org.jscience.mathematics.scalar.LongScalar;
+import org.jscience.mathematics.number.Integer;
 
 /**
  * The structure of integers (ℤ = {..., -2, -1, 0, 1, 2, ...}).
@@ -42,21 +42,21 @@ import org.jscience.mathematics.scalar.LongScalar;
  * 
  * <pre>{@code
  * Integers structure = Integers.getInstance();
- * LongScalar five = LongScalar.of(5);
- * LongScalar negThree = LongScalar.of(-3);
+ * Integer five = Integer.of(5);
+ * Integer negThree = Integer.of(-3);
  * 
  * // Use structure for operations
- * LongScalar two = structure.add(five, negThree);
- * LongScalar negFifteen = structure.multiply(five, negThree);
- * LongScalar negFive = structure.negate(five);
+ * Integer two = structure.add(five, negThree);
+ * Integer negFifteen = structure.multiply(five, negThree);
+ * Integer negFive = structure.negate(five);
  * }</pre>
  * 
- * @see LongScalar
+ * @see Integer
  * @author Silvere Martin-Michiellot
  * @author Gemini AI (Google DeepMind)
  * @since 1.0
  */
-public final class Integers implements Ring<LongScalar>, InfiniteSet<LongScalar> {
+public final class Integers implements Ring<Integer>, InfiniteSet<Integer> {
 
     /** Singleton instance */
     private static final Integers INSTANCE = new Integers();
@@ -77,33 +77,33 @@ public final class Integers implements Ring<LongScalar>, InfiniteSet<LongScalar>
     // --- Ring Implementation ---
 
     @Override
-    public LongScalar operate(LongScalar a, LongScalar b) {
+    public Integer operate(Integer a, Integer b) {
         return add(a, b); // Ring operation is addition
     }
 
     @Override
-    public LongScalar add(LongScalar a, LongScalar b) {
-        return LongScalar.of(a.getValue() + b.getValue());
+    public Integer add(Integer a, Integer b) {
+        return a.add(b);
     }
 
     @Override
-    public LongScalar zero() {
-        return LongScalar.ZERO;
+    public Integer zero() {
+        return Integer.ZERO;
     }
 
     @Override
-    public LongScalar negate(LongScalar element) {
-        return LongScalar.of(-element.getValue());
+    public Integer negate(Integer element) {
+        return element.negate();
     }
 
     @Override
-    public LongScalar multiply(LongScalar a, LongScalar b) {
-        return LongScalar.of(a.getValue() * b.getValue());
+    public Integer multiply(Integer a, Integer b) {
+        return a.multiply(b);
     }
 
     @Override
-    public LongScalar one() {
-        return LongScalar.ONE;
+    public Integer one() {
+        return Integer.ONE;
     }
 
     @Override
@@ -112,9 +112,9 @@ public final class Integers implements Ring<LongScalar>, InfiniteSet<LongScalar>
     }
 
     @Override
-    public LongScalar inverse(LongScalar element) {
+    public Integer inverse(Integer element) {
         // Integers don't have multiplicative inverses in general
-        if (element.getValue() == 1 || element.getValue() == -1) {
+        if (element.isOne() || element.equals(Integer.MINUS_ONE)) {
             return element; // Only ±1 are self-inverse
         }
         throw new UnsupportedOperationException(
@@ -129,7 +129,7 @@ public final class Integers implements Ring<LongScalar>, InfiniteSet<LongScalar>
     }
 
     @Override
-    public boolean contains(LongScalar element) {
+    public boolean contains(Integer element) {
         return element != null;
     }
 

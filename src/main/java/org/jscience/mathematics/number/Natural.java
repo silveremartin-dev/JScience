@@ -59,11 +59,16 @@ import java.math.BigInteger;
  */
 public abstract class Natural implements Comparable<Natural> {
 
+    private static final class Constants {
+        private static final Natural ZERO = NaturalInt.of(0);
+        private static final Natural ONE = NaturalInt.of(1);
+    }
+
     /** The natural number 0 */
-    public static final Natural ZERO = NaturalInt.of(0);
+    public static final Natural ZERO = Constants.ZERO;
 
     /** The natural number 1 */
-    public static final Natural ONE = NaturalInt.of(1);
+    public static final Natural ONE = Constants.ONE;
 
     /**
      * Creates a natural number from a long value.
@@ -83,7 +88,7 @@ public abstract class Natural implements Comparable<Natural> {
             return ONE;
 
         // Smart delegation
-        if (value <= Integer.MAX_VALUE) {
+        if (value <= java.lang.Integer.MAX_VALUE) {
             return NaturalInt.of((int) value);
         } else {
             return NaturalLong.of(value);

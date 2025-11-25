@@ -53,7 +53,7 @@ final class NaturalInt extends Natural {
             // Check overflow (safe mode)
             if (MathContext.getCurrent().isOverflowCheckingEnabled()) {
                 // Pre-check: will addition overflow?
-                if ((value > 0 && otherValue > Integer.MAX_VALUE - value)) {
+                if ((value > 0 && otherValue > java.lang.Integer.MAX_VALUE - value)) {
                     // Promote to long
                     return NaturalLong.of((long) value + (long) otherValue);
                 }
@@ -89,7 +89,7 @@ final class NaturalInt extends Natural {
             // Check overflow
             if (MathContext.getCurrent().isOverflowCheckingEnabled()) {
                 // Will multiplication overflow?
-                if (value != 0 && otherValue > Integer.MAX_VALUE / value) {
+                if (value != 0 && otherValue > java.lang.Integer.MAX_VALUE / value) {
                     // Promote to long
                     return NaturalLong.of((long) value * (long) otherValue);
                 }
@@ -113,7 +113,7 @@ final class NaturalInt extends Natural {
         }
 
         // Dividing by larger number = 0
-        return ZERO;
+        return NaturalInt.of(0);
     }
 
     @Override
@@ -153,7 +153,7 @@ final class NaturalInt extends Natural {
     @Override
     public int compareTo(Natural other) {
         if (other instanceof NaturalInt) {
-            return Integer.compare(value, ((NaturalInt) other).value);
+            return java.lang.Integer.compare(value, ((NaturalInt) other).value);
         } else if (other instanceof NaturalLong) {
             return Long.compare(value, ((NaturalLong) other).longValue());
         } else {
@@ -178,7 +178,7 @@ final class NaturalInt extends Natural {
 
     @Override
     public int hashCode() {
-        return Integer.hashCode(value);
+        return java.lang.Integer.hashCode(value);
     }
 
     @Override

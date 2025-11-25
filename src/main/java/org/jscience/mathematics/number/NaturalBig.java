@@ -40,7 +40,7 @@ final class NaturalBig extends Natural {
         this.value = value;
     }
 
-    static NaturalBig of(BigInteger value) {
+    public static NaturalBig of(BigInteger value) {
         return new NaturalBig(value);
     }
 

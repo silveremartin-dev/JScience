@@ -24,13 +24,13 @@
 package org.jscience.mathematics.examples;
 
 import org.jscience.mathematics.algebra.Semiring;
-import org.jscience.mathematics.scalar.Natural;
-import org.jscience.mathematics.scalar.DoubleNatural;
+import org.jscience.mathematics.number.Natural;
+import org.jscience.mathematics.number.Real;
 import org.jscience.mathematics.number.set.Naturals;
-import org.jscience.mathematics.number.set.DoubleNaturals;
+import org.jscience.mathematics.number.set.Reals;
 
 /**
- * Demonstrates exact vs approximate natural number computations.
+ * Demonstrates exact vs approximate number computations.
  * Shows how the same algorithm works with both types via Semiring interface.
  */
 public class ExactVsApproximateDemo {
@@ -67,21 +67,21 @@ public class ExactVsApproximateDemo {
     }
 
     public static void main(String[] args) {
-        System.out.println("=== EXACT vs APPROXIMATE Natural Numbers ===\n");
+        System.out.println("=== EXACT vs APPROXIMATE Numbers ===\n");
 
         // ============================================================
         // Example 1: Fibonacci Numbers
         // ============================================================
         System.out.println("1. Fibonacci Numbers (n=100):");
 
-        // EXACT computation (BigInteger - slow but correct)
+        // EXACT computation (Natural - uses BigInteger internally if needed)
         long startExact = System.nanoTime();
         Natural fibExact = fibonacci(100, Naturals.getInstance());
         long timeExact = System.nanoTime() - startExact;
 
-        // APPROXIMATE computation (double - fast but limited precision)
+        // APPROXIMATE computation (Real - uses double by default)
         long startApprox = System.nanoTime();
-        DoubleNatural fibApprox = fibonacci(100, DoubleNaturals.getInstance());
+        Real fibApprox = fibonacci(100, Reals.getInstance());
         long timeApprox = System.nanoTime() - startApprox;
 
         System.out.println("   Exact:        " + fibExact);
@@ -98,8 +98,8 @@ public class ExactVsApproximateDemo {
         Natural baseExact = Natural.of(2);
         Natural powerExact = power(baseExact, 100, Naturals.getInstance());
 
-        DoubleNatural baseApprox = DoubleNatural.of(2.0);
-        DoubleNatural powerApprox = power(baseApprox, 100, DoubleNaturals.getInstance());
+        Real baseApprox = Real.of(2.0);
+        Real powerApprox = power(baseApprox, 100, Reals.getInstance());
 
         System.out.println("   Exact:        " + powerExact);
         System.out.println("   Approximate:  " + powerApprox);
@@ -117,16 +117,16 @@ public class ExactVsApproximateDemo {
         System.out.println("   Exact: (1000000 + 500000) * 2 = " + sumExact);
 
         // Approximate - same fluent API!
-        DoubleNatural x = DoubleNatural.of(1e6);
-        DoubleNatural y = DoubleNatural.of(5e5);
-        DoubleNatural sumApprox = x.add(y).multiply(DoubleNatural.of(2.0));
+        Real x = Real.of(1e6);
+        Real y = Real.of(5e5);
+        Real sumApprox = x.add(y).multiply(Real.of(2.0));
         System.out.println("   Approx: (1e6 + 5e5) * 2 = " + sumApprox + "\n");
 
         // ============================================================
         // Example 4: Type Safety Prevents Mixing!
         // ============================================================
         System.out.println("4. Type Safety:");
-        System.out.println("   Natural and DoubleNatural are DIFFERENT types");
+        System.out.println("   Natural and Real are DIFFERENT types");
         System.out.println("   This prevents accidental precision loss:");
         System.out.println("   // a.add(x)  <- COMPILE ERROR! Cannot mix!");
         System.out.println("   Type system protects you!\n");
@@ -143,8 +143,8 @@ public class ExactVsApproximateDemo {
         System.out.println("   (85 digit number, exact!)");
 
         // Approximate: limited precision
-        DoubleNatural approxHuge = DoubleNatural.of(Long.MAX_VALUE);
-        DoubleNatural approxSquared = approxHuge.multiply(approxHuge);
+        Real approxHuge = Real.of(Long.MAX_VALUE);
+        Real approxSquared = approxHuge.multiply(approxHuge);
         System.out.println("   Approx: INT64_MAX^2 ≈ " + approxSquared);
         System.out.println("   (Approximate representation)\n");
 

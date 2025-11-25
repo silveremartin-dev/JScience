@@ -41,7 +41,7 @@ final class NaturalLong extends Natural {
         this.value = value;
     }
 
-    static NaturalLong of(long value) {
+    public static NaturalLong of(long value) {
         return new NaturalLong(value);
     }
 
@@ -70,7 +70,7 @@ final class NaturalLong extends Natural {
 
         long result = value - otherValue;
         // Try to downgrade to int if possible
-        if (result <= Integer.MAX_VALUE) {
+        if (result <= java.lang.Integer.MAX_VALUE) {
             return NaturalInt.of((int) result);
         }
         return NaturalLong.of(result);
@@ -98,7 +98,7 @@ final class NaturalLong extends Natural {
         }
 
         long result = value / other.longValue();
-        if (result <= Integer.MAX_VALUE) {
+        if (result <= java.lang.Integer.MAX_VALUE) {
             return NaturalInt.of((int) result);
         }
         return NaturalLong.of(result);
@@ -111,7 +111,7 @@ final class NaturalLong extends Natural {
         }
 
         long result = value % other.longValue();
-        if (result <= Integer.MAX_VALUE) {
+        if (result <= java.lang.Integer.MAX_VALUE) {
             return NaturalInt.of((int) result);
         }
         return NaturalLong.of(result);
