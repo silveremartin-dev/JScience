@@ -55,12 +55,12 @@ public final class Rational extends Number implements Comparable<Rational> {
 
     // --- Field Implementation ---
 
-    @Override
+    // --- Field Implementation (Removed from Scalar, kept as methods) ---
+
     public Rational operate(Rational a, Rational b) {
         return a.add(b);
     }
 
-    @Override
     public Rational add(Rational a, Rational b) {
         return a.add(b);
     }
@@ -73,12 +73,10 @@ public final class Rational extends Number implements Comparable<Rational> {
         return of(newNum, newDen);
     }
 
-    @Override
     public Rational zero() {
         return ZERO;
     }
 
-    @Override
     public Rational negate(Rational a) {
         return a.negate();
     }
@@ -87,7 +85,6 @@ public final class Rational extends Number implements Comparable<Rational> {
         return new Rational(numerator.negate(), denominator);
     }
 
-    @Override
     public Rational subtract(Rational a, Rational b) {
         return a.subtract(b);
     }
@@ -96,7 +93,6 @@ public final class Rational extends Number implements Comparable<Rational> {
         return add(other.negate());
     }
 
-    @Override
     public Rational multiply(Rational a, Rational b) {
         return a.multiply(b);
     }
@@ -106,17 +102,14 @@ public final class Rational extends Number implements Comparable<Rational> {
                 this.denominator.multiply(other.denominator));
     }
 
-    @Override
     public Rational one() {
         return ONE;
     }
 
-    @Override
     public boolean isMultiplicationCommutative() {
         return true;
     }
 
-    @Override
     public Rational inverse(Rational a) {
         return a.inverse();
     }
@@ -128,7 +121,6 @@ public final class Rational extends Number implements Comparable<Rational> {
         return of(denominator, numerator);
     }
 
-    @Override
     public Rational divide(Rational a, Rational b) {
         return a.divide(b);
     }

@@ -45,14 +45,12 @@ public final class Complex {
         return imaginary;
     }
 
-    // --- Field Implementation ---
+    // --- Operations ---
 
-    @Override
     public Complex operate(Complex a, Complex b) {
         return a.add(b);
     }
 
-    @Override
     public Complex add(Complex a, Complex b) {
         return a.add(b);
     }
@@ -61,12 +59,10 @@ public final class Complex {
         return new Complex(this.real.add(other.real), this.imaginary.add(other.imaginary));
     }
 
-    @Override
     public Complex zero() {
         return ZERO;
     }
 
-    @Override
     public Complex negate(Complex a) {
         return a.negate();
     }
@@ -75,7 +71,6 @@ public final class Complex {
         return new Complex(real.negate(), imaginary.negate());
     }
 
-    @Override
     public Complex subtract(Complex a, Complex b) {
         return a.subtract(b);
     }
@@ -84,7 +79,6 @@ public final class Complex {
         return new Complex(this.real.subtract(other.real), this.imaginary.subtract(other.imaginary));
     }
 
-    @Override
     public Complex multiply(Complex a, Complex b) {
         return a.multiply(b);
     }
@@ -98,17 +92,14 @@ public final class Complex {
         return new Complex(ac.subtract(bd), ad.add(bc));
     }
 
-    @Override
     public Complex one() {
         return ONE;
     }
 
-    @Override
     public boolean isMultiplicationCommutative() {
         return true;
     }
 
-    @Override
     public Complex inverse(Complex a) {
         return a.inverse();
     }
@@ -119,7 +110,6 @@ public final class Complex {
         return new Complex(real.divide(denominator), imaginary.negate().divide(denominator));
     }
 
-    @Override
     public Complex divide(Complex a, Complex b) {
         return a.divide(b);
     }

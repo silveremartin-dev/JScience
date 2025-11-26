@@ -66,6 +66,9 @@
 
         <!-- GPU/Performance -->
         <jcuda.version>12.0.0</jcuda.version>
+        
+        <!-- UI (JavaFX) -->
+        <javafx.version>21.0.1</javafx.version>
     </properties>
 
     <dependencies>
@@ -158,6 +161,18 @@
             <groupId>javax.vecmath</groupId>
             <artifactId>vecmath</artifactId>
             <version>1.5.2</version>
+        </dependency>
+
+        <!-- JavaFX (UI) -->
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-fxml</artifactId>
+            <version>${javafx.version}</version>
         </dependency>
     </dependencies>
 

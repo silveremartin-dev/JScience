@@ -132,25 +132,77 @@ public class DenseVector<E> implements Vector<E> {
 
     @Override
     public E norm() {
-        // For general fields, norm might not be well-defined or might require square
-        // root.
-        // This is a simplified implementation assuming Euclidean-like norm via dot
-        // product.
-        // Note: This might fail if the field doesn't support sqrt (e.g., Integers).
-        // For now, we return dot(this) which is norm squared, or we need a Sqrt
-        // interface.
-        // Let's return dot(this) for now as a placeholder or throw
-        // UnsupportedOperationException
-        // if we can't take sqrt.
-        // Better approach: Vector space usually implies a norm.
-        // Let's assume standard dot product norm.
-        // But we can't take sqrt of generic E without knowing it supports it.
-        // So we will leave it as dot(this) for now, or maybe we should change the
-        // return type?
-        // Actually, let's just return dot(this) representing squared norm for now,
-        // or rely on the field to have a sqrt? Field doesn't have sqrt.
-        // Let's throw for now until we define NormedVectorSpace.
-        throw new UnsupportedOperationException("Norm requires a field with square root operation");
+        E dotProduct = dot(this);
+        if (dotProduct instanceof org.jscience.mathematics.number.Real) {
+            return (E) ((org.jscience.mathematics.number.Real) dotProduct).sqrt();
+        } else if (dotProduct instanceof org.jscience.mathematics.number.Complex) {
+            // Norm of complex vector is usually sqrt(sum(|z_i|^2)), which is real.
+            // But here dot(this) is sum(z_i * z_i) if not conjugated.
+            // Standard dot product for complex is usually z . w_conjugate.
+            // Our dot product implementation depends on provider.
+            // Assuming standard Euclidean norm behavior:
+            return (E) ((org.jscience.mathematics.number.Complex) dotProduct).sqrt();
+        }
+        throw new UnsupportedOperationException("Norm not supported for type " + dotProduct.getClass().getSimpleName());
+    }
+
+    @Override
+    public Vector<E> normalize() {
+        E n = norm();
+        if (field.zero().equals(n)) {
+            throw new ArithmeticException("Cannot normalize zero vector");
+        }
+        return multiply(field.inverse(n));
+    }
+
+    @Override
+    public Vector<E> cross(Vector<E> other) {
+        if (dimension() != 3 || other.dimension() != 3) {
+            throw new ArithmeticException("Cross product only defined for 3D vectors");
+        }
+        E a1 = this.get(0);
+        E a2 = this.get(1);
+        E a3 = this.get(2);
+        E b1 = other.get(0);
+        E b2 = other.get(1);
+        E b3 = other.get(2);
+
+        // c1 = a2*b3 - a3*b2
+        E c1 = field.add(field.multiply(a2, b3), field.negate(field.multiply(a3, b2)));
+        // c2 = a3*b1 - a1*b3
+        E c2 = field.add(field.multiply(a3, b1), field.negate(field.multiply(a1, b3)));
+        // c3 = a1*b2 - a2*b1
+        E c3 = field.add(field.multiply(a1, b2), field.negate(field.multiply(a2, b1)));
+
+        List<E> elements = new ArrayList<>();
+        elements.add(c1);
+        elements.add(c2);
+        elements.add(c3);
+        return new DenseVector<>(elements, field);
+    }
+
+    @Override
+    public E angle(Vector<E> other) {
+        // angle = acos( dot / (norm1 * norm2) )
+        E dotVal = dot(other);
+        E n1 = norm();
+        E n2 = other.norm();
+        E denom = field.multiply(n1, n2);
+        E cosTheta = field.multiply(dotVal, field.inverse(denom));
+
+        if (cosTheta instanceof org.jscience.mathematics.number.Real) {
+            return (E) ((org.jscience.mathematics.number.Real) cosTheta).acos();
+        }
+        throw new UnsupportedOperationException("Angle not supported for type " + cosTheta.getClass().getSimpleName());
+    }
+
+    @Override
+    public Vector<E> projection(Vector<E> other) {
+        // proj_other(this) = (this . other) / (other . other) * other
+        E dotVal = dot(other);
+        E otherDotOther = other.dot(other);
+        E scalar = field.multiply(dotVal, field.inverse(otherDotOther));
+        return other.multiply(scalar);
     }
 
     @Override

@@ -104,19 +104,6 @@ java Launcher.java CPU  # or GPU or AUTO
 - `start_cpu.sh`
 - `start_gpu.sh`
 
-**Batch Scripts** (Windows):
-- `start_cpu.bat`
-- `start_gpu.bat`
-
-## Verification
-
-### Test Results
-```
-[INFO] Tests run: 11, Failures: 0, Errors: 0, Skipped: 0
-[INFO] BUILD SUCCESS
-```
-
-**VectorTest** (6 tests):
 - ✅ Basic arithmetic (add, subtract, multiply)
 - ✅ Dot product
 - ✅ Norm calculation

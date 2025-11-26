@@ -221,6 +221,18 @@ public class DenseMatrix<E> implements Matrix<E> {
     }
 
     @Override
+    public E trace() {
+        if (rowsCount != colsCount) {
+            throw new ArithmeticException("Trace only defined for square matrices");
+        }
+        E sum = field.zero();
+        for (int i = 0; i < rowsCount; i++) {
+            sum = field.add(sum, this.get(i, i));
+        }
+        return sum;
+    }
+
+    @Override
     public E determinant() {
         return getProvider().determinant(this);
     }

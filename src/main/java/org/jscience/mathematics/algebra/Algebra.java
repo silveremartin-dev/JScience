@@ -56,7 +56,7 @@ package org.jscience.mathematics.algebra;
  * @author Gemini AI (Google DeepMind)
  * @since 1.0
  */
-public interface Algebra<E, F> extends VectorSpace<E, F>, Ring<E> {
+public interface Algebra<E, F> extends Module<E, F>, Ring<E> {
 
     /**
      * The bilinear product operation.
