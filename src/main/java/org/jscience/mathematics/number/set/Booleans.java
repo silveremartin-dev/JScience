@@ -79,10 +79,6 @@ public final class Booleans implements Semiring<Boolean>, FiniteSet<Boolean> {
         return true;
     }
 
-    public boolean isCountable() {
-        return true;
-    }
-
     @Override
     public boolean contains(Boolean element) {
         return element != null;

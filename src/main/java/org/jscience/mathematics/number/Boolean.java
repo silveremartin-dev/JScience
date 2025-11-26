@@ -24,6 +24,8 @@
 package org.jscience.mathematics.number;
 
 import org.jscience.mathematics.algebra.Semiring;
+import org.jscience.mathematics.algebra.Lattice;
+import org.jscience.mathematics.algebra.FiniteSet;
 
 /**
  * Boolean algebraic type (𝔹 = {0, 1}).

@@ -32,12 +32,29 @@ package org.jscience.mathematics.scalar;
  * 
  * @param <T> the underlying integer type (Integer, Long, BigInteger)
  */
-public record Rational<T>(T numerator, T denominator, ScalarType<T> scalar) {
+public final class Rational<T> {
 
-    public Rational {
+    private final T numerator;
+    private final T denominator;
+    private final ScalarType<T> scalar;
+
+    public Rational(T numerator, T denominator, ScalarType<T> scalar) {
         if (scalar.compare(denominator, scalar.zero()) == 0) {
             throw new ArithmeticException("Denominator cannot be zero");
         }
+        // Should simplify/reduce here in a real implementation
+        // For now, just storing
+        this.numerator = numerator;
+        this.denominator = denominator;
+        this.scalar = scalar;
+    }
+
+    public T getNumerator() {
+        return numerator;
+    }
+
+    public T getDenominator() {
+        return denominator;
     }
 
     public Rational<T> add(Rational<T> other) {
