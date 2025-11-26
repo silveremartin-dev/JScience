@@ -25,51 +25,50 @@ package org.jscience.mathematics.dynamical;
 import org.jscience.mathematics.number.Complex;
 
 /**
- * Julia Set as a proper mathematical set.
+ * The Mandelbrot Set as a proper mathematical set.
  * <p>
- * For a given complex parameter c, the Julia set J_c ⊂ ℂ is defined as:
- * J_c = { z ∈ ℂ : the sequence z₀ = z, zₙ₊₁ = zₙ² + c remains bounded }
+ * The Mandelbrot set M ⊂ ℂ is defined as:
+ * M = { c ∈ ℂ : the sequence z₀ = 0, zₙ₊₁ = zₙ² + c remains bounded }
+ * </p>
+ * <p>
+ * This implementation provides set membership testing using the escape-time
+ * algorithm.
  * </p>
  * 
  * @author Silvere Martin-Michiellot (silvere.martin@gmail.com)
  * @author Gemini AI (Google DeepMind)
  * @since 1.0
  */
-public class JuliaSet implements org.jscience.mathematics.algebra.Set<Complex> {
+public class MandelbrotSet implements org.jscience.mathematics.algebra.Set<Complex> {
 
-    private final Complex c;
     private final int maxIterations;
     private static final double ESCAPE_RADIUS_SQ = 4.0;
 
     /**
-     * Creates a Julia set for parameter c with default iteration limit.
-     * 
-     * @param c the complex parameter
+     * Creates a Mandelbrot set with default iteration limit.
      */
-    public JuliaSet(Complex c) {
-        this(c, 1000);
+    public MandelbrotSet() {
+        this(1000);
     }
 
     /**
-     * Creates a Julia set for parameter c with specified iteration limit.
+     * Creates a Mandelbrot set with specified iteration limit.
      * 
-     * @param c             the complex parameter
      * @param maxIterations maximum iterations for membership test
      */
-    public JuliaSet(Complex c, int maxIterations) {
-        this.c = c;
+    public MandelbrotSet(int maxIterations) {
         this.maxIterations = maxIterations;
     }
 
     @Override
-    public boolean contains(Complex z) {
-        Complex current = z;
+    public boolean contains(Complex c) {
+        Complex z = Complex.ZERO;
 
         for (int i = 0; i < maxIterations; i++) {
-            current = current.multiply(current).add(c);
+            z = z.multiply(z).add(c);
 
-            double r = current.realValue();
-            double im = current.imaginaryValue();
+            double r = z.realValue();
+            double im = z.imaginaryValue();
             if (r * r + im * im > ESCAPE_RADIUS_SQ) {
                 return false; // Diverges, not in set
             }
@@ -80,41 +79,34 @@ public class JuliaSet implements org.jscience.mathematics.algebra.Set<Complex> {
 
     @Override
     public boolean isEmpty() {
-        return false; // Julia sets are non-empty
+        return false; // Mandelbrot set is non-empty
     }
 
     @Override
     public String description() {
-        return String.format("Julia Set J_c for c = %s", c);
+        return "Mandelbrot Set M = { c ∈ ℂ : z_{n+1} = z_n² + c, z_0 = 0 remains bounded }";
     }
 
     /**
      * Computes the escape time for visualization.
      * 
-     * @param z the starting point
+     * @param c the point to test
      * @return number of iterations before escape, or maxIterations if bounded
      */
-    public int escapeTime(Complex z) {
-        Complex current = z;
+    public int escapeTime(Complex c) {
+        Complex z = Complex.ZERO;
 
         for (int i = 0; i < maxIterations; i++) {
-            current = current.multiply(current).add(c);
+            z = z.multiply(z).add(c);
 
-            double r = current.realValue();
-            double im = current.imaginaryValue();
+            double r = z.realValue();
+            double im = z.imaginaryValue();
             if (r * r + im * im > ESCAPE_RADIUS_SQ) {
                 return i;
             }
         }
 
         return maxIterations;
-    }
-
-    /**
-     * Returns the complex parameter of this Julia set.
-     */
-    public Complex getParameter() {
-        return c;
     }
 
     /**

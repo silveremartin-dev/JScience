@@ -53,15 +53,12 @@ public interface SemiLattice<E> extends Magma<E> {
     /**
      * The binary operation (join or meet).
      */
-    @Override
     E operate(E a, E b);
 
-    @Override
     default boolean isAssociative() {
         return true;
     }
 
-    @Override
     default boolean isCommutative() {
         return true;
     }

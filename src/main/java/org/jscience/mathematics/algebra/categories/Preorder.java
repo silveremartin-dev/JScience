@@ -1,5 +1,7 @@
 package org.jscience.mathematics.algebra.categories;
 
+import org.jscience.mathematics.algebra.Category;
+
 /**
  * Represents a Preorder as a Category.
  * <p>
@@ -20,13 +22,11 @@ public interface Preorder<E> extends Category<E, Boolean> {
      */
     boolean isLessThanOrEqualTo(E a, E b);
 
-    @Override
     default Boolean compose(Boolean f, Boolean g) {
         // Transitivity: if a<=b (g) and b<=c (f), then a<=c
         return f && g;
     }
 
-    @Override
     default Boolean identity(E object) {
         // Reflexivity: a<=a
         return true;
