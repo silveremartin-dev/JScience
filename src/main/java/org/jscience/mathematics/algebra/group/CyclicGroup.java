@@ -65,6 +65,21 @@ public class CyclicGroup implements Group<Integer> {
     }
 
     @Override
+    public String description() {
+        return "Cyclic Group of order " + order;
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return false;
+    }
+
+    @Override
+    public boolean contains(Integer element) {
+        return element.compareTo(Integer.ZERO) >= 0 && element.compareTo(order) < 0;
+    }
+
+    @Override
     public String toString() {
         return "Z_" + order;
     }

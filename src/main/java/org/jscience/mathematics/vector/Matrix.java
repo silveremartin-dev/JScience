@@ -152,12 +152,7 @@ public interface Matrix<E> extends Ring<Matrix<E>> {
      */
     Vector<E> getColumn(int col);
 
-    /**
-     * Returns the transpose of this matrix.
-     * 
-     * @return the transpose matrix
-     */
-    Matrix<E> transpose();
+    // transpose() is defined above as a default method.
 
     /**
      * Returns the determinant of this matrix.

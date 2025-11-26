@@ -25,7 +25,7 @@ public interface Functor<O1, M1, O2, M2> {
      * @param object the object in C
      * @return F(object) in D
      */
-    O2 apply(O1 object);
+    O2 applyObject(O1 object);
 
     /**
      * Maps a morphism from the source category to the target category.
@@ -33,7 +33,7 @@ public interface Functor<O1, M1, O2, M2> {
      * @param morphism the morphism f: A -> B in C
      * @return F(f): F(A) -> F(B) in D
      */
-    M2 apply(M1 morphism);
+    M2 applyMorphism(M1 morphism);
 
     /**
      * Returns the source category.

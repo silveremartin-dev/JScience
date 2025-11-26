@@ -172,15 +172,6 @@ public abstract class Real implements Comparable<Real> {
     // --- Transcendental Functions ---
 
     /**
-     * Returns the absolute value of this number.
-     * 
-     * @return |this|
-     */
-    public Real abs() {
-        return this.compareTo(Real.ZERO) >= 0 ? this : this.negate();
-    }
-
-    /**
      * Returns the sign of this number (-1, 0, or 1).
      * 
      * @return -1 if negative, 0 if zero, 1 if positive
@@ -190,14 +181,8 @@ public abstract class Real implements Comparable<Real> {
         return cmp > 0 ? 1 : (cmp < 0 ? -1 : 0);
     }
 
-    /**
-     * Returns the square root of this number.
-     * 
-     * @return √this
-     */
-    public Real sqrt() {
-        return Real.of(Math.sqrt(this.doubleValue()));
-    }
+    // abs() is already defined below or above.
+    // Removing this block.
 
     /**
      * Returns this number raised to a power.

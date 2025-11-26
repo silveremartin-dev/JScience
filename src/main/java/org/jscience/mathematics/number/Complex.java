@@ -127,6 +127,21 @@ public final class Complex {
         return real.multiply(real).add(imaginary.multiply(imaginary)).sqrt();
     }
 
+    public Complex sqrt() {
+        // sqrt(a + bi) = +/- (sqrt((|z| + a) / 2) + i * sgn(b) * sqrt((|z| - a) / 2))
+        Real r = abs();
+        Real two = Real.of(2.0);
+
+        Real u = r.add(real).divide(two).sqrt();
+        Real v = r.subtract(real).divide(two).sqrt();
+
+        if (imaginary.sign() < 0) {
+            v = v.negate();
+        }
+
+        return new Complex(u, v);
+    }
+
     public Real arg() {
         // arg(z) = atan2(b, a)
         // Note: Real doesn't have atan2 yet, using Math.atan2 via doubleValue for now
