@@ -106,4 +106,48 @@ public interface Vector<E> extends Module<Vector<E>, E> {
      * @return the norm of this vector
      */
     E norm();
+
+    /**
+     * Returns the normalized vector (unit vector).
+     * 
+     * @return this / norm()
+     * @throws ArithmeticException if norm is zero
+     */
+    default Vector<E> normalize() {
+        throw new UnsupportedOperationException("Not implemented yet");
+    }
+
+    /**
+     * Returns the cross product of this vector and another (only for 3D).
+     * 
+     * @param other the other vector
+     * @return this x other
+     * @throws ArithmeticException if dimensions are not 3
+     */
+    default Vector<E> cross(Vector<E> other) {
+        if (dimension() != 3 || other.dimension() != 3) {
+            throw new ArithmeticException("Cross product only defined for 3D vectors");
+        }
+        throw new UnsupportedOperationException("Not implemented yet");
+    }
+
+    /**
+     * Returns the angle between this vector and another.
+     * 
+     * @param other the other vector
+     * @return the angle in radians (or appropriate unit)
+     */
+    default E angle(Vector<E> other) {
+        throw new UnsupportedOperationException("Not implemented yet");
+    }
+
+    /**
+     * Returns the projection of this vector onto another.
+     * 
+     * @param other the vector to project onto
+     * @return proj_other(this)
+     */
+    default Vector<E> projection(Vector<E> other) {
+        throw new UnsupportedOperationException("Not implemented yet");
+    }
 }

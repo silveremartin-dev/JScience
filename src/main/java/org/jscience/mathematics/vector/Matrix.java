@@ -77,8 +77,51 @@ public interface Matrix<E> extends Ring<Matrix<E>> {
 
     /**
      * Returns the difference of this matrix and another.
+     * 
+     * @param other the matrix to subtract
+     * @return this - other
+     */
+    default Matrix<E> subtract(Matrix<E> other) {
+        return this.add(other.negate());
+    }
+
+    /**
+     * Returns the product of this matrix and another.
+     * 
+     * @param other the matrix to multiply
+     * @return this * other
      */
     default Matrix<E> multiply(Matrix<E> other) {
+        throw new UnsupportedOperationException("Not implemented yet");
+    }
+
+    /**
+     * Returns the transpose of this matrix.
+     * 
+     * @return A^T
+     */
+    default Matrix<E> transpose() {
+        throw new UnsupportedOperationException("Not implemented yet");
+    }
+
+    /**
+     * Returns the trace of this matrix (sum of diagonal elements).
+     * 
+     * @return tr(A)
+     */
+    default E trace() {
+        if (rows() != cols()) {
+            throw new ArithmeticException("Trace only defined for square matrices");
+        }
+        E sum = null; // Initialize with zero from first element's field/ring?
+                      // Hard to get zero without an element or class token.
+                      // Assuming we can get it from first element or passed in context.
+        // Actually, we can't easily get 'zero' generically here without the Ring
+        // structure instance.
+        // But Matrix extends Ring<Matrix<E>>, not Ring<E>.
+        // The elements E must form a Ring.
+        // Let's leave it abstract or throw for now if we can't implement default
+        // easily.
         throw new UnsupportedOperationException("Not implemented yet");
     }
 

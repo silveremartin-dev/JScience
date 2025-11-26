@@ -34,12 +34,17 @@ import org.jscience.mathematics.scalar.DoubleNatural;
  * using primitive {@code double} for performance.
  * </p>
  * 
+ * @deprecated This class is redundant. Use {@link Naturals} with appropriate
+ *             casting if you need natural number semantics with doubles.
+ *             Will be removed in v2.0.
+ * 
  * @see Naturals
  * @see DoubleNatural
  * @author Silvere Martin-Michiellot
  * @author Gemini AI (Google DeepMind)
  * @since 1.0
  */
+@Deprecated(since = "1.0", forRemoval = true)
 public final class DoubleNaturals implements Semiring<DoubleNatural>, InfiniteSet<DoubleNatural> {
 
     /** Singleton instance */

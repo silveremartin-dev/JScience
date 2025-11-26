@@ -238,4 +238,36 @@ public abstract class Integer implements Comparable<Integer> {
 
     @Override
     public abstract int compareTo(Integer other);
+
+    // --- Convenience Methods ---
+
+    /**
+     * Returns the signum function of this integer.
+     * 
+     * @return -1, 0 or 1 as the value of this integer is negative, zero or
+     *         positive.
+     */
+    public int signum() {
+        return compareTo(ZERO);
+    }
+
+    /**
+     * Converts this integer to a double.
+     * 
+     * @return this integer as a double
+     */
+    public double doubleValue() {
+        return bigIntegerValue().doubleValue();
+    }
+
+    /**
+     * Returns the greatest common divisor of absolute value of this integer and
+     * absolute value of other integer.
+     * 
+     * @param other the other integer
+     * @return gcd(|this|, |other|)
+     */
+    public Integer gcd(Integer other) {
+        return Integer.of(this.bigIntegerValue().gcd(other.bigIntegerValue()));
+    }
 }
