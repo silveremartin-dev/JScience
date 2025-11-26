@@ -168,4 +168,145 @@ public abstract class Real implements Comparable<Real> {
 
     @Override
     public abstract int compareTo(Real other);
+
+    // --- Transcendental Functions ---
+
+    /**
+     * Returns the absolute value of this number.
+     * 
+     * @return |this|
+     */
+    public Real abs() {
+        return this.compareTo(Real.ZERO) >= 0 ? this : this.negate();
+    }
+
+    /**
+     * Returns the sign of this number (-1, 0, or 1).
+     * 
+     * @return -1 if negative, 0 if zero, 1 if positive
+     */
+    public int sign() {
+        int cmp = this.compareTo(Real.ZERO);
+        return cmp > 0 ? 1 : (cmp < 0 ? -1 : 0);
+    }
+
+    /**
+     * Returns the square root of this number.
+     * 
+     * @return √this
+     */
+    public Real sqrt() {
+        return Real.of(Math.sqrt(this.doubleValue()));
+    }
+
+    /**
+     * Returns this number raised to a power.
+     * 
+     * @param exponent the exponent
+     * @return this^exponent
+     */
+    public Real pow(double exponent) {
+        return Real.of(Math.pow(this.doubleValue(), exponent));
+    }
+
+    /**
+     * Returns e raised to this number.
+     * 
+     * @return e^this
+     */
+    public Real exp() {
+        return Real.of(Math.exp(this.doubleValue()));
+    }
+
+    /**
+     * Returns the natural logarithm of this number.
+     * 
+     * @return ln(this)
+     */
+    public Real log() {
+        return Real.of(Math.log(this.doubleValue()));
+    }
+
+    /**
+     * Returns the base-10 logarithm of this number.
+     * 
+     * @return log₁₀(this)
+     */
+    public Real log10() {
+        return Real.of(Math.log10(this.doubleValue()));
+    }
+
+    /**
+     * Returns the sine of this number (in radians).
+     * 
+     * @return sin(this)
+     */
+    public Real sin() {
+        return Real.of(Math.sin(this.doubleValue()));
+    }
+
+    /**
+     * Returns the cosine of this number (in radians).
+     * 
+     * @return cos(this)
+     */
+    public Real cos() {
+        return Real.of(Math.cos(this.doubleValue()));
+    }
+
+    /**
+     * Returns the tangent of this number (in radians).
+     * 
+     * @return tan(this)
+     */
+    public Real tan() {
+        return Real.of(Math.tan(this.doubleValue()));
+    }
+
+    /**
+     * Returns the arcsine of this number.
+     * 
+     * @return arcsin(this) in radians
+     */
+    public Real asin() {
+        return Real.of(Math.asin(this.doubleValue()));
+    }
+
+    /**
+     * Returns the arccosine of this number.
+     * 
+     * @return arccos(this) in radians
+     */
+    public Real acos() {
+        return Real.of(Math.acos(this.doubleValue()));
+    }
+
+    /**
+     * Returns the arctangent of this number.
+     * 
+     * @return arctan(this) in radians
+     */
+    public Real atan() {
+        return Real.of(Math.atan(this.doubleValue()));
+    }
+
+    /**
+     * Returns the minimum of this and another number.
+     * 
+     * @param other the other number
+     * @return min(this, other)
+     */
+    public Real min(Real other) {
+        return this.compareTo(other) <= 0 ? this : other;
+    }
+
+    /**
+     * Returns the maximum of this and another number.
+     * 
+     * @param other the other number
+     * @return max(this, other)
+     */
+    public Real max(Real other) {
+        return this.compareTo(other) >= 0 ? this : other;
+    }
 }
