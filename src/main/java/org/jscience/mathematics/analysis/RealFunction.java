@@ -21,16 +21,8 @@ public interface RealFunction extends Function<Real, Real> {
      * @return the derivative function f'
      */
     default RealFunction derivative() {
-        // Default implementation could use numerical differentiation
-        // But for symbolic or analytical functions, this should be overridden
-        return x -> {
-            // Central difference approximation
-            double h = 1e-8;
-            double val = x.doubleValue();
-            Real f_x_plus_h = evaluate(Real.of(val + h));
-            Real f_x_minus_h = evaluate(Real.of(val - h));
-            return f_x_plus_h.subtract(f_x_minus_h).divide(Real.of(2 * h));
-        };
+        // Default to numerical differentiation using Ridders' method
+        return x -> Differentiation.derivativeAt(this, x);
     }
 
     /**
@@ -52,20 +44,8 @@ public interface RealFunction extends Function<Real, Real> {
      * @return the definite integral value
      */
     default Real integrate(Real a, Real b) {
-        // Default implementation: Simpson's Rule or similar numerical integration
-        // Simplified Trapezoidal for now
-        int n = 1000;
-        double start = a.doubleValue();
-        double end = b.doubleValue();
-        double h = (end - start) / n;
-        double sum = 0.5 * (evaluate(a).doubleValue() + evaluate(b).doubleValue());
-
-        for (int i = 1; i < n; i++) {
-            double x = start + i * h;
-            sum += evaluate(Real.of(x)).doubleValue();
-        }
-
-        return Real.of(sum * h);
+        // Default to Adaptive Simpson's method
+        return Integration.integrate(this, a, b);
     }
 
     static RealFunction identity() {

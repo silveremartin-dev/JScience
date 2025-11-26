@@ -23,6 +23,8 @@
 
 package org.jscience.mathematics.algebra;
 
+import org.jscience.mathematics.algebra.algebras.Magma;
+
 /**
  * A monoid is a semigroup with an identity element.
  * <p>
