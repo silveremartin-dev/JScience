@@ -1,5 +1,6 @@
 package org.jscience.mathematics.algebra.categories;
 
+import org.jscience.mathematics.algebra.Category;
 import org.jscience.mathematics.algebra.space.HilbertSpace;
 import org.jscience.mathematics.vector.Matrix;
 

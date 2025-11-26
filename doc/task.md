@@ -212,18 +212,6 @@
 - [ ] `Tensors` (Multi-dimensional arrays)
 
 ### 4. Geometry & Topology
-- [x] `Euclidean` Geometry (Points, Lines, Planes)
-- [ ] `Projective` Geometry
-
-### 7. Logic
-- [x] `Propositional` Logic (Core Interfaces, Boolean, Fuzzy, ThreeValued)
-- [ ] `Predicate` Logic
-
-### 11. Formal Verification (Bridge)
-- [x] `CoqExporter` (Export to Coq .v files)
-- [x] `MetamathExporter` (Export to Metamath .mm files)
-- [x] `QedeqExporter` (Export to Hilbert II XML)
-
 ### 12. Applied Mathematics
 - [ ] `GameTheory` (Nash Equilibrium, Minimax)
 
