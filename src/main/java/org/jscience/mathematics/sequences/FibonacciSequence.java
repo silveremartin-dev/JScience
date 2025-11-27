@@ -52,10 +52,28 @@ public class FibonacciSequence implements IntegerSequence {
             BigInteger temp = a.add(b);
             a = b;
             b = temp;
+        }
+
+        return b;
+    }
+
+    @Override
+    public String getOeisId() {
+        return "A000045";
+    }
+
+    @Override
+    public String getName() {
+        return "Fibonacci numbers";
     }
 
     @Override
     public String getFormula() {
         return "F(n) = F(n-1) + F(n-2) with F(0) = 0, F(1) = 1";
+    }
+
+    @Override
+    public String getCodomain() {
+        return "ℤ";
     }
 }
