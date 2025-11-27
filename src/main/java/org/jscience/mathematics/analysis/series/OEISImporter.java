@@ -29,6 +29,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.jscience.mathematics.number.Integer;
+import org.jscience.mathematics.number.Natural;
+
 /**
  * Importer for local OEIS data files.
  * 
@@ -63,22 +66,23 @@ public class OEISImporter {
 
     private static class CachedSequence implements IntegerSequence {
         private final String id;
-        private final java.util.List<java.math.BigInteger> terms;
+        private final java.util.List<Integer> terms;
 
-        public CachedSequence(String id, java.util.List<java.math.BigInteger> terms) {
+        public CachedSequence(String id, java.util.List<Integer> terms) {
             this.id = id;
             this.terms = terms;
         }
 
         @Override
-        public java.math.BigInteger get(int n) {
-            if (n < 0 || n >= terms.size())
+        public Integer get(Natural n) {
+            int index = n.intValue();
+            if (index >= terms.size())
                 return null; // Or throw?
-            return terms.get(n);
+            return terms.get(index);
         }
 
         @Override
-        public String getOeisId() {
+        public String getOEISId() {
             return id;
         }
     }

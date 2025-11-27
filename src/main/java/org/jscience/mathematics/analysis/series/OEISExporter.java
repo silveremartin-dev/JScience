@@ -23,7 +23,9 @@
 package org.jscience.mathematics.analysis.series;
 
 import java.io.PrintWriter;
-import java.math.BigInteger;
+
+import org.jscience.mathematics.number.Integer;
+import org.jscience.mathematics.number.Natural;
 
 /**
  * Exporter for sequences to OEIS formats.
@@ -43,7 +45,7 @@ public class OEISExporter {
      * @param writer   the output writer
      */
     public static void exportStripped(IntegerSequence sequence, int count, PrintWriter writer) {
-        String id = sequence.getOeisId();
+        String id = sequence.getOEISId();
         if (id == null)
             id = "A000000"; // Placeholder
 
@@ -53,7 +55,7 @@ public class OEISExporter {
         for (int i = 0; i < count; i++) {
             if (i > 0)
                 writer.print(",");
-            BigInteger val = sequence.get(i);
+            Integer val = sequence.get(Natural.valueOf(i));
             writer.print(val);
         }
         writer.println();
@@ -72,7 +74,7 @@ public class OEISExporter {
             writer.print(i); // Or 1-based? OEIS usually 1-based for b-files but depends on offset.
             // We'll use 0-based index for now or sequence domain.
             writer.print(" ");
-            writer.println(sequence.get(i));
+            writer.println(sequence.get(Natural.valueOf(i)));
         }
     }
 }

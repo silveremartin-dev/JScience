@@ -22,11 +22,12 @@
  */
 package org.jscience.mathematics.analysis.series;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.jscience.mathematics.number.Integer;
 
 /**
  * Utilities for parsing OEIS internal format (stripped.gz, names.gz, etc.).
@@ -43,9 +44,9 @@ public class OEISFormat {
 
     public static class Entry {
         public final String id;
-        public final List<BigInteger> terms;
+        public final List<Integer> terms;
 
-        public Entry(String id, List<BigInteger> terms) {
+        public Entry(String id, List<Integer> terms) {
             this.id = id;
             this.terms = terms;
         }
@@ -62,10 +63,10 @@ public class OEISFormat {
         if (matcher.matches()) {
             String id = matcher.group(1);
             String data = matcher.group(2);
-            List<BigInteger> terms = new ArrayList<>();
+            List<Integer> terms = new ArrayList<>();
             for (String part : data.split(",")) {
                 try {
-                    terms.add(new BigInteger(part.trim()));
+                    terms.add(Integer.valueOf(part.trim()));
                 } catch (NumberFormatException e) {
                     // Ignore malformed numbers
                 }

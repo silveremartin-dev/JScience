@@ -24,13 +24,13 @@ package org.jscience.mathematics.analysis.series;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.math.BigInteger;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
+import org.jscience.mathematics.number.Integer;
+import org.jscience.mathematics.number.Natural;
 
 /**
  * Client for the Online Encyclopedia of Integer Sequences (OEIS).
@@ -71,7 +71,7 @@ public class OEISClient {
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String line;
-            List<BigInteger> terms = new ArrayList<>();
+            List<Integer> terms = new ArrayList<>();
             String name = "Unknown Sequence";
 
             while ((line = reader.readLine()) != null) {
@@ -86,7 +86,7 @@ public class OEISClient {
                     for (String part : parts) {
                         if (!part.trim().isEmpty()) {
                             try {
-                                terms.add(new BigInteger(part.trim()));
+                                terms.add(Integer.valueOf(part.trim()));
                             } catch (NumberFormatException e) {
                                 // Ignore non-integer parts
                             }
@@ -114,27 +114,26 @@ public class OEISClient {
     private static class CachedOEISSequence implements IntegerSequence {
         private final String id;
         private final String name;
-        private final List<BigInteger> terms;
+        private final List<Integer> terms;
 
-        public CachedOEISSequence(String id, String name, List<BigInteger> terms) {
+        public CachedOEISSequence(String id, String name, List<Integer> terms) {
             this.id = id;
             this.name = name;
             this.terms = terms;
         }
 
         @Override
-        public BigInteger get(int n) {
-            if (n < 0)
-                throw new IllegalArgumentException("n must be ≥ 0");
-            if (n >= terms.size()) {
+        public Integer get(Natural n) {
+            int index = n.intValue();
+            if (index >= terms.size()) {
                 throw new IndexOutOfBoundsException(
-                        "Term " + n + " not available in cached data (size: " + terms.size() + ")");
+                        "Term " + index + " not available in cached data (size: " + terms.size() + ")");
             }
-            return terms.get(n);
+            return terms.get(index);
         }
 
         @Override
-        public String getOeisId() {
+        public String getOEISId() {
             return id;
         }
 

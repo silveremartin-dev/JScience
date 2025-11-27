@@ -143,16 +143,18 @@ final class StandardDimension implements Dimension {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (!(obj instanceof Dimension)) return false;
+        if (this == obj)
+            return true;
+        if (!(obj instanceof Dimension))
+            return false;
         Dimension other = (Dimension) obj;
         return length == other.getLengthExponent() &&
-               mass == other.getMassExponent() &&
-               time == other.getTimeExponent() &&
-               electricCurrent == other.getElectricCurrentExponent() &&
-               temperature == other.getTemperatureExponent() &&
-               amountOfSubstance == other.getAmountOfSubstanceExponent() &&
-               luminousIntensity == other.getLuminous IntensityExponent();
+                mass == other.getMassExponent() &&
+                time == other.getTimeExponent() &&
+                electricCurrent == other.getElectricCurrentExponent() &&
+                temperature == other.getTemperatureExponent() &&
+                amountOfSubstance == other.getAmountOfSubstanceExponent() &&
+                luminousIntensity == other.getLuminousIntensityExponent();
     }
 
     @Override
