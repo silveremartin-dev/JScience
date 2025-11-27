@@ -20,7 +20,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.jscience.mathematics.analysis.series;
+package org.jscience.mathematics.analysis.series.oeis;
 
 import java.io.BufferedReader;
 import java.io.File;

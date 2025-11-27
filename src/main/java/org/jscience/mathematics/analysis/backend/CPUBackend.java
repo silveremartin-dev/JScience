@@ -20,7 +20,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.jscience.mathematics.analysis.acceleration;
+package org.jscience.mathematics.analysis.backend;
 
 import org.jscience.mathematics.analysis.Function;
 import java.util.stream.DoubleStream;
