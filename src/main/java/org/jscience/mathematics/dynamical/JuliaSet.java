@@ -41,21 +41,10 @@ public class JuliaSet implements org.jscience.mathematics.algebra.Set<Complex> {
     private final int maxIterations;
     private static final double ESCAPE_RADIUS_SQ = 4.0;
 
-    /**
-     * Creates a Julia set for parameter c with default iteration limit.
-     * 
-     * @param c the complex parameter
-     */
     public JuliaSet(Complex c) {
         this(c, 1000);
     }
 
-    /**
-     * Creates a Julia set for parameter c with specified iteration limit.
-     * 
-     * @param c             the complex parameter
-     * @param maxIterations maximum iterations for membership test
-     */
     public JuliaSet(Complex c, int maxIterations) {
         this.c = c;
         this.maxIterations = maxIterations;
@@ -68,19 +57,19 @@ public class JuliaSet implements org.jscience.mathematics.algebra.Set<Complex> {
         for (int i = 0; i < maxIterations; i++) {
             current = current.multiply(current).add(c);
 
-            double r = current.realValue();
-            double im = current.imaginaryValue();
+            double r = current.getReal().doubleValue();
+            double im = current.getImaginary().doubleValue();
             if (r * r + im * im > ESCAPE_RADIUS_SQ) {
-                return false; // Diverges, not in set
+                return false;
             }
         }
 
-        return true; // Appears to be bounded
+        return true;
     }
 
     @Override
     public boolean isEmpty() {
-        return false; // Julia sets are non-empty
+        return false;
     }
 
     @Override
@@ -88,20 +77,14 @@ public class JuliaSet implements org.jscience.mathematics.algebra.Set<Complex> {
         return String.format("Julia Set J_c for c = %s", c);
     }
 
-    /**
-     * Computes the escape time for visualization.
-     * 
-     * @param z the starting point
-     * @return number of iterations before escape, or maxIterations if bounded
-     */
     public int escapeTime(Complex z) {
         Complex current = z;
 
         for (int i = 0; i < maxIterations; i++) {
             current = current.multiply(current).add(c);
 
-            double r = current.realValue();
-            double im = current.imaginaryValue();
+            double r = current.getReal().doubleValue();
+            double im = current.getImaginary().doubleValue();
             if (r * r + im * im > ESCAPE_RADIUS_SQ) {
                 return i;
             }
@@ -110,16 +93,10 @@ public class JuliaSet implements org.jscience.mathematics.algebra.Set<Complex> {
         return maxIterations;
     }
 
-    /**
-     * Returns the complex parameter of this Julia set.
-     */
     public Complex getParameter() {
         return c;
     }
 
-    /**
-     * Returns the iteration limit for this set.
-     */
     public int getMaxIterations() {
         return maxIterations;
     }

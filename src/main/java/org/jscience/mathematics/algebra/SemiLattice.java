@@ -23,6 +23,8 @@
 
 package org.jscience.mathematics.algebra;
 
+import org.jscience.mathematics.algebra.algebras.Magma;
+
 /**
  * A set equipped with a commutative, associative and idempotent binary
  * operation.

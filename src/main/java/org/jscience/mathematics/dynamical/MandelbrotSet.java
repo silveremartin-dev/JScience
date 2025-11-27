@@ -30,10 +30,6 @@ import org.jscience.mathematics.number.Complex;
  * The Mandelbrot set M ⊂ ℂ is defined as:
  * M = { c ∈ ℂ : the sequence z₀ = 0, zₙ₊₁ = zₙ² + c remains bounded }
  * </p>
- * <p>
- * This implementation provides set membership testing using the escape-time
- * algorithm.
- * </p>
  * 
  * @author Silvere Martin-Michiellot (silvere.martin@gmail.com)
  * @author Gemini AI (Google DeepMind)
@@ -44,18 +40,10 @@ public class MandelbrotSet implements org.jscience.mathematics.algebra.Set<Compl
     private final int maxIterations;
     private static final double ESCAPE_RADIUS_SQ = 4.0;
 
-    /**
-     * Creates a Mandelbrot set with default iteration limit.
-     */
     public MandelbrotSet() {
         this(1000);
     }
 
-    /**
-     * Creates a Mandelbrot set with specified iteration limit.
-     * 
-     * @param maxIterations maximum iterations for membership test
-     */
     public MandelbrotSet(int maxIterations) {
         this.maxIterations = maxIterations;
     }
@@ -67,19 +55,19 @@ public class MandelbrotSet implements org.jscience.mathematics.algebra.Set<Compl
         for (int i = 0; i < maxIterations; i++) {
             z = z.multiply(z).add(c);
 
-            double r = z.realValue();
-            double im = z.imaginaryValue();
+            double r = z.getReal().doubleValue();
+            double im = z.getImaginary().doubleValue();
             if (r * r + im * im > ESCAPE_RADIUS_SQ) {
-                return false; // Diverges, not in set
+                return false;
             }
         }
 
-        return true; // Appears to be bounded
+        return true;
     }
 
     @Override
     public boolean isEmpty() {
-        return false; // Mandelbrot set is non-empty
+        return false;
     }
 
     @Override
@@ -87,20 +75,14 @@ public class MandelbrotSet implements org.jscience.mathematics.algebra.Set<Compl
         return "Mandelbrot Set M = { c ∈ ℂ : z_{n+1} = z_n² + c, z_0 = 0 remains bounded }";
     }
 
-    /**
-     * Computes the escape time for visualization.
-     * 
-     * @param c the point to test
-     * @return number of iterations before escape, or maxIterations if bounded
-     */
     public int escapeTime(Complex c) {
         Complex z = Complex.ZERO;
 
         for (int i = 0; i < maxIterations; i++) {
             z = z.multiply(z).add(c);
 
-            double r = z.realValue();
-            double im = z.imaginaryValue();
+            double r = z.getReal().doubleValue();
+            double im = z.getImaginary().doubleValue();
             if (r * r + im * im > ESCAPE_RADIUS_SQ) {
                 return i;
             }
@@ -109,9 +91,6 @@ public class MandelbrotSet implements org.jscience.mathematics.algebra.Set<Compl
         return maxIterations;
     }
 
-    /**
-     * Returns the iteration limit for this set.
-     */
     public int getMaxIterations() {
         return maxIterations;
     }
