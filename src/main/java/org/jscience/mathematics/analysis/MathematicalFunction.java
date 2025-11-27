@@ -22,6 +22,10 @@
  */
 package org.jscience.mathematics.analysis;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 /**
  * A mathematical function with extended metadata and operations.
  * <p>
@@ -92,5 +96,38 @@ public interface MathematicalFunction<D, C> extends Function<D, C>, java.util.fu
                 return after.apply(MathematicalFunction.this.evaluate(x));
             }
         };
+    }
+
+    /**
+     * Sets the compute backend for this function (e.g., enable GPU).
+     * 
+     * @param backend the compute backend
+     */
+    default void setBackend(org.jscience.mathematics.analysis.acceleration.ComputeBackend backend) {
+        // Default implementation does nothing (stateless functions)
+        // Stateful functions or those with specific GPU kernels should override
+    }
+
+    /**
+     * Returns the currently set compute backend.
+     * 
+     * @return the compute backend, or null if none is explicitly set or supported.
+     */
+    default org.jscience.mathematics.analysis.acceleration.ComputeBackend getBackend() {
+        return null; // Default implementation returns null
+    }
+
+    /**
+     * Evaluates the function for a batch of input values.
+     * 
+     * @param inputs a collection of input values
+     * @return a list of corresponding output values
+     */
+    default List<C> evaluate(Collection<D> inputs) {
+        List<C> results = new ArrayList<>(inputs.size());
+        for (D input : inputs) {
+            results.add(evaluate(input));
+        }
+        return results;
     }
 }

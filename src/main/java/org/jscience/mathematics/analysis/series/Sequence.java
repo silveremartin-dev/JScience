@@ -59,6 +59,17 @@ public interface Sequence<T> extends MathematicalFunction<Integer, T> {
         return get(n);
     }
 
+    /**
+     * MathematicalFunction interface implementation - delegates to get().
+     * 
+     * @param n the index
+     * @return a(n)
+     */
+    @Override
+    default T evaluate(Integer n) {
+        return get(n);
+    }
+
     @Override
     default String getDomain() {
         return "ℕ";
