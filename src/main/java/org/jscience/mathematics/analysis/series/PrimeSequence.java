@@ -20,50 +20,60 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.jscience.mathematics.sequences;
+package org.jscience.mathematics.analysis.series;
 
-import org.jscience.mathematics.discrete.Combinatorics;
+import org.jscience.mathematics.numbertheory.Primes;
 import java.math.BigInteger;
+import java.util.List;
 
 /**
- * Catalan numbers: C(0)=1, C(n) = (2n)! / ((n+1)! * n!).
+ * Prime number sequence: 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, ...
  * <p>
- * OEIS A000108: Catalan numbers.
- * </p>
- * <p>
- * Counts the number of:
- * <ul>
- * <li>Binary trees with n internal nodes</li>
- * <li>Ways to triangulate a convex (n+2)-gon</li>
- * <li>Balanced parentheses sequences of length 2n</li>
- * </ul>
+ * OEIS A000040: The prime numbers.
  * </p>
  * 
  * @author Silvere Martin-Michiellot (silvere.martin@gmail.com)
  * @author Gemini AI (Google DeepMind)
  * @since 1.0
  */
-public class CatalanSequence implements IntegerSequence {
+public class PrimeSequence implements IntegerSequence {
+
+    private final List<Integer> cachedPrimes;
+
+    public PrimeSequence() {
+        // Pre-compute first 10000 primes (up to ~104730)
+        this.cachedPrimes = Primes.sieveOfEratosthenes(105000);
+    }
 
     @Override
     public BigInteger get(int n) {
         if (n < 0)
             throw new IllegalArgumentException("n must be ≥ 0");
-        return Combinatorics.catalan(n);
+
+        if (n < cachedPrimes.size()) {
+            return BigInteger.valueOf(cachedPrimes.get(n));
+        }
+
+        // For larger n, use nextPrime beyond cached range
+        BigInteger p = BigInteger.valueOf(cachedPrimes.get(cachedPrimes.size() - 1));
+        for (int i = cachedPrimes.size(); i <= n; i++) {
+            p = Primes.nextPrime(p);
+        }
+        return p;
     }
 
     @Override
     public String getOeisId() {
-        return "A000108";
+        return "A000040";
     }
 
     @Override
     public String getName() {
-        return "Catalan numbers";
+        return "Prime numbers";
     }
 
     @Override
     public String getFormula() {
-        return "C(n) = (2n)! / ((n+1)! * n!) = binom(2n, n) / (n+1)";
+        return "p(n) = n-th prime number";
     }
 }

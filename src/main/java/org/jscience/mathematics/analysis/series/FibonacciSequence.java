@@ -20,42 +20,60 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.jscience.mathematics.sequences;
+package org.jscience.mathematics.analysis.series;
 
-import org.jscience.mathematics.discrete.Combinatorics;
 import java.math.BigInteger;
 
 /**
- * Factorial sequence: 0! = 1, n! = n × (n-1)!
+ * Fibonacci sequence: F(0) = 0, F(1) = 1, F(n) = F(n-1) + F(n-2).
  * <p>
- * OEIS A000142: Factorial numbers.
+ * OEIS A000045: The Fibonacci numbers.
  * </p>
  * 
  * @author Silvere Martin-Michiellot (silvere.martin@gmail.com)
  * @author Gemini AI (Google DeepMind)
  * @since 1.0
  */
-public class FactorialSequence implements IntegerSequence {
+public class FibonacciSequence implements IntegerSequence {
 
     @Override
     public BigInteger get(int n) {
         if (n < 0)
             throw new IllegalArgumentException("n must be ≥ 0");
-        return Combinatorics.factorial(n);
+        if (n == 0)
+            return BigInteger.ZERO;
+        if (n == 1)
+            return BigInteger.ONE;
+
+        BigInteger a = BigInteger.ZERO;
+        BigInteger b = BigInteger.ONE;
+
+        for (int i = 2; i <= n; i++) {
+            BigInteger temp = a.add(b);
+            a = b;
+            b = temp;
+        }
+
+        return b;
     }
 
     @Override
     public String getOeisId() {
-        return "A000142";
+        return "A000045";
     }
 
     @Override
     public String getName() {
-        return "Factorial numbers";
+        return "Fibonacci numbers";
     }
 
     @Override
     public String getFormula() {
-        return "a(n) = n! = n × (n-1) × ... × 2 × 1";
+        return "F(n) = F(n-1) + F(n-2) with F(0) = 0, F(1) = 1";
+    }
+
+    @Override
+    public String getCodomain() {
+        return "ℤ";
     }
 }

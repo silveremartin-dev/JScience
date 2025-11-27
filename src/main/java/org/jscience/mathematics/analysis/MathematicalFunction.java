@@ -22,13 +22,12 @@
  */
 package org.jscience.mathematics.analysis;
 
-import java.util.function.Function;
-
 /**
- * A mathematical function from domain D to codomain C.
+ * A mathematical function with extended metadata and operations.
  * <p>
- * This extends Java's Function to add mathematical metadata and operations.
- * Sequences can be viewed as functions ℕ → T.
+ * This extends the JScience Function interface and implements Java's Function
+ * for maximum interoperability. Sequences, series, and real functions all
+ * extend this.
  * </p>
  * 
  * @param <D> domain type
@@ -38,16 +37,27 @@ import java.util.function.Function;
  * @author Gemini AI (Google DeepMind)
  * @since 1.0
  */
-public interface MathematicalFunction<D, C> extends Function<D, C> {
+public interface MathematicalFunction<D, C> extends Function<D, C>, java.util.function.Function<D, C> {
 
     /**
-     * Evaluates the function at x.
+     * Evaluates the function at x (from JScience Function interface).
      * 
      * @param x input value
      * @return f(x)
      */
     @Override
-    C apply(D x);
+    C evaluate(D x);
+
+    /**
+     * Java Function interface implementation - delegates to evaluate().
+     * 
+     * @param x input value
+     * @return f(x)
+     */
+    @Override
+    default C apply(D x) {
+        return evaluate(x);
+    }
 
     /**
      * Returns the domain description.
@@ -68,18 +78,18 @@ public interface MathematicalFunction<D, C> extends Function<D, C> {
     }
 
     /**
-     * Composes this function with another: g ∘ f.
+     * Composes this function with another (from java.util.function.Function).
      * 
-     * @param <R>   result type
+     * @param <V>   result type
      * @param after function to apply after this
-     * @return g(f(x))
+     * @return composed function
      */
     @Override
-    default <R> MathematicalFunction<D, R> andThen(Function<? super C, ? extends R> after) {
-        return new MathematicalFunction<D, R>() {
+    default <V> MathematicalFunction<D, V> andThen(java.util.function.Function<? super C, ? extends V> after) {
+        return new MathematicalFunction<D, V>() {
             @Override
-            public R apply(D x) {
-                return after.apply(MathematicalFunction.this.apply(x));
+            public V evaluate(D x) {
+                return after.apply(MathematicalFunction.this.evaluate(x));
             }
         };
     }

@@ -20,60 +20,29 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.jscience.mathematics.sequences;
+package org.jscience.mathematics.analysis.series;
 
-import org.jscience.mathematics.numbertheory.Primes;
 import java.math.BigInteger;
-import java.util.List;
 
 /**
- * Prime number sequence: 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, ...
+ * A sequence of integers.
  * <p>
- * OEIS A000040: The prime numbers.
+ * Most OEIS sequences are integer sequences.
  * </p>
  * 
  * @author Silvere Martin-Michiellot (silvere.martin@gmail.com)
  * @author Gemini AI (Google DeepMind)
  * @since 1.0
  */
-public class PrimeSequence implements IntegerSequence {
+public interface IntegerSequence extends Sequence<BigInteger> {
 
-    private final List<Integer> cachedPrimes;
-
-    public PrimeSequence() {
-        // Pre-compute first 10000 primes (up to ~104730)
-        this.cachedPrimes = Primes.sieveOfEratosthenes(105000);
-    }
-
-    @Override
-    public BigInteger get(int n) {
-        if (n < 0)
-            throw new IllegalArgumentException("n must be ≥ 0");
-
-        if (n < cachedPrimes.size()) {
-            return BigInteger.valueOf(cachedPrimes.get(n));
-        }
-
-        // For larger n, use nextPrime beyond cached range
-        BigInteger p = BigInteger.valueOf(cachedPrimes.get(cachedPrimes.size() - 1));
-        for (int i = cachedPrimes.size(); i <= n; i++) {
-            p = Primes.nextPrime(p);
-        }
-        return p;
-    }
-
-    @Override
-    public String getOeisId() {
-        return "A000040";
-    }
-
-    @Override
-    public String getName() {
-        return "Prime numbers";
-    }
-
-    @Override
-    public String getFormula() {
-        return "p(n) = n-th prime number";
+    /**
+     * Convenience method for small indices.
+     * 
+     * @param n the index
+     * @return a(n) as long (may overflow)
+     */
+    default long getLong(int n) {
+        return get(n).longValue();
     }
 }

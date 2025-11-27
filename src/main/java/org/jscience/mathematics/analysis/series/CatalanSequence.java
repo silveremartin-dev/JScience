@@ -20,42 +20,50 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.jscience.mathematics.sequences;
+package org.jscience.mathematics.analysis.series;
 
+import org.jscience.mathematics.discrete.Combinatorics;
 import java.math.BigInteger;
 
 /**
- * Square numbers: 0, 1, 4, 9, 16, 25, 36, 49, ...
+ * Catalan numbers: C(0)=1, C(n) = (2n)! / ((n+1)! * n!).
  * <p>
- * OEIS A000290: The squares.
+ * OEIS A000108: Catalan numbers.
+ * </p>
+ * <p>
+ * Counts the number of:
+ * <ul>
+ * <li>Binary trees with n internal nodes</li>
+ * <li>Ways to triangulate a convex (n+2)-gon</li>
+ * <li>Balanced parentheses sequences of length 2n</li>
+ * </ul>
  * </p>
  * 
  * @author Silvere Martin-Michiellot (silvere.martin@gmail.com)
  * @author Gemini AI (Google DeepMind)
  * @since 1.0
  */
-public class SquareSequence implements IntegerSequence {
+public class CatalanSequence implements IntegerSequence {
 
     @Override
     public BigInteger get(int n) {
         if (n < 0)
             throw new IllegalArgumentException("n must be ≥ 0");
-        BigInteger bn = BigInteger.valueOf(n);
-        return bn.multiply(bn);
+        return Combinatorics.catalan(n);
     }
 
     @Override
     public String getOeisId() {
-        return "A000290";
+        return "A000108";
     }
 
     @Override
     public String getName() {
-        return "Square numbers";
+        return "Catalan numbers";
     }
 
     @Override
     public String getFormula() {
-        return "a(n) = n²";
+        return "C(n) = (2n)! / ((n+1)! * n!) = binom(2n, n) / (n+1)";
     }
 }

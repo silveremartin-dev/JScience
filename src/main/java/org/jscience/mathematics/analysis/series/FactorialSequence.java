@@ -20,29 +20,42 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.jscience.mathematics.sequences;
+package org.jscience.mathematics.analysis.series;
 
+import org.jscience.mathematics.discrete.Combinatorics;
 import java.math.BigInteger;
 
 /**
- * A sequence of integers.
+ * Factorial sequence: 0! = 1, n! = n × (n-1)!
  * <p>
- * Most OEIS sequences are integer sequences.
+ * OEIS A000142: Factorial numbers.
  * </p>
  * 
  * @author Silvere Martin-Michiellot (silvere.martin@gmail.com)
  * @author Gemini AI (Google DeepMind)
  * @since 1.0
  */
-public interface IntegerSequence extends Sequence<BigInteger> {
+public class FactorialSequence implements IntegerSequence {
 
-    /**
-     * Convenience method for small indices.
-     * 
-     * @param n the index
-     * @return a(n) as long (may overflow)
-     */
-    default long getLong(int n) {
-        return get(n).longValue();
+    @Override
+    public BigInteger get(int n) {
+        if (n < 0)
+            throw new IllegalArgumentException("n must be ≥ 0");
+        return Combinatorics.factorial(n);
+    }
+
+    @Override
+    public String getOeisId() {
+        return "A000142";
+    }
+
+    @Override
+    public String getName() {
+        return "Factorial numbers";
+    }
+
+    @Override
+    public String getFormula() {
+        return "a(n) = n! = n × (n-1) × ... × 2 × 1";
     }
 }

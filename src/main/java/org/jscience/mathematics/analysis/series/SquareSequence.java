@@ -20,60 +20,42 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.jscience.mathematics.sequences;
+package org.jscience.mathematics.analysis.series;
 
 import java.math.BigInteger;
 
 /**
- * Fibonacci sequence: F(0) = 0, F(1) = 1, F(n) = F(n-1) + F(n-2).
+ * Square numbers: 0, 1, 4, 9, 16, 25, 36, 49, ...
  * <p>
- * OEIS A000045: The Fibonacci numbers.
+ * OEIS A000290: The squares.
  * </p>
  * 
  * @author Silvere Martin-Michiellot (silvere.martin@gmail.com)
  * @author Gemini AI (Google DeepMind)
  * @since 1.0
  */
-public class FibonacciSequence implements IntegerSequence {
+public class SquareSequence implements IntegerSequence {
 
     @Override
     public BigInteger get(int n) {
         if (n < 0)
             throw new IllegalArgumentException("n must be ≥ 0");
-        if (n == 0)
-            return BigInteger.ZERO;
-        if (n == 1)
-            return BigInteger.ONE;
-
-        BigInteger a = BigInteger.ZERO;
-        BigInteger b = BigInteger.ONE;
-
-        for (int i = 2; i <= n; i++) {
-            BigInteger temp = a.add(b);
-            a = b;
-            b = temp;
-        }
-
-        return b;
+        BigInteger bn = BigInteger.valueOf(n);
+        return bn.multiply(bn);
     }
 
     @Override
     public String getOeisId() {
-        return "A000045";
+        return "A000290";
     }
 
     @Override
     public String getName() {
-        return "Fibonacci numbers";
+        return "Square numbers";
     }
 
     @Override
     public String getFormula() {
-        return "F(n) = F(n-1) + F(n-2) with F(0) = 0, F(1) = 1";
-    }
-
-    @Override
-    public String getCodomain() {
-        return "ℤ";
+        return "a(n) = n²";
     }
 }

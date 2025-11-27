@@ -20,7 +20,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.jscience.mathematics.dynamical;
+package org.jscience.mathematics.analysis.chaos;
 
 import org.jscience.mathematics.number.Complex;
 
