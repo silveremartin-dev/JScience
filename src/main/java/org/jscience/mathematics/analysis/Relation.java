@@ -23,22 +23,44 @@
 package org.jscience.mathematics.analysis;
 
 /**
- * A mathematical function with extended metadata and operations.
+ * Represents a binary relation between a domain D and a codomain C.
  * <p>
- * This interface is maintained for backward compatibility and specific
- * mathematical semantics. It now extends the enhanced {@link Function}
- * interface.
+ * A relation is a set of ordered pairs (d, c) where d ∈ D and c ∈ C.
  * </p>
  * 
- * @param <D> domain type
- * @param <C> codomain type
+ * @param <D> the domain type
+ * @param <C> the codomain type
  * 
  * @author Silvere Martin-Michiellot
  * @author Gemini AI (Google DeepMind)
  * @since 1.0
  */
-public interface MathematicalFunction<D, C> extends Function<D, C> {
-    // Most functionality has been moved up to Function.
-    // This interface can serve as a marker or hold legacy specific methods if
-    // needed.
+public interface Relation<D, C> {
+
+    /**
+     * Checks if the relation contains the pair (input, output).
+     * 
+     * @param input  the input element from the domain
+     * @param output the output element from the codomain
+     * @return true if (input, output) is in the relation
+     */
+    boolean contains(D input, C output);
+
+    /**
+     * Returns the domain description.
+     * 
+     * @return domain name (e.g., "ℝ", "ℕ", "ℂ")
+     */
+    default String getDomain() {
+        return "?";
+    }
+
+    /**
+     * Returns the codomain description.
+     * 
+     * @return codomain name
+     */
+    default String getCodomain() {
+        return "?";
+    }
 }

@@ -23,11 +23,9 @@
 package org.jscience.mathematics.analysis;
 
 /**
- * A mathematical function with extended metadata and operations.
+ * Represents an integrable function.
  * <p>
- * This interface is maintained for backward compatibility and specific
- * mathematical semantics. It now extends the enhanced {@link Function}
- * interface.
+ * A function that can be integrated over its domain.
  * </p>
  * 
  * @param <D> domain type
@@ -37,8 +35,21 @@ package org.jscience.mathematics.analysis;
  * @author Gemini AI (Google DeepMind)
  * @since 1.0
  */
-public interface MathematicalFunction<D, C> extends Function<D, C> {
-    // Most functionality has been moved up to Function.
-    // This interface can serve as a marker or hold legacy specific methods if
-    // needed.
+public interface IntegrableFunction<D, C> extends Function<D, C> {
+
+    /**
+     * Returns the indefinite integral (antiderivative) of this function.
+     * 
+     * @return F such that F' = f
+     */
+    Function<D, C> integrate();
+
+    /**
+     * Calculates the definite integral from start to end.
+     * 
+     * @param start lower bound
+     * @param end   upper bound
+     * @return integral_{start}^{end} f(x) dx
+     */
+    C integrate(D start, D end);
 }

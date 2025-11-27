@@ -13,7 +13,7 @@ import org.jscience.mathematics.number.Real;
  * @author Gemini AI (Google DeepMind)
  * @since 1.0
  */
-public interface RealFunction extends Function<Real, Real> {
+public interface RealFunction extends DifferentiableFunction<Real, Real>, IntegrableFunction<Real, Real> {
 
     /**
      * Returns the derivative of this function.
@@ -25,6 +25,11 @@ public interface RealFunction extends Function<Real, Real> {
         return x -> Differentiation.derivativeAt(this, x);
     }
 
+    @Override
+    default Function<Real, Real> differentiate() {
+        return derivative();
+    }
+
     /**
      * Returns the integral of this function (antiderivative) with zero constant.
      * 
@@ -32,6 +37,7 @@ public interface RealFunction extends Function<Real, Real> {
      * @throws UnsupportedOperationException if symbolic integration is not
      *                                       supported
      */
+    @Override
     default RealFunction integrate() {
         throw new UnsupportedOperationException("Symbolic integration not supported by default");
     }
@@ -43,6 +49,7 @@ public interface RealFunction extends Function<Real, Real> {
      * @param b the upper bound
      * @return the definite integral value
      */
+    @Override
     default Real integrate(Real a, Real b) {
         // Default to Adaptive Simpson's method
         return Integration.integrate(this, a, b);

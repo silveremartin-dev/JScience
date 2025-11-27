@@ -20,25 +20,50 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.jscience.mathematics.analysis;
+package org.jscience.mathematics.analysis.chaos;
 
 /**
- * A mathematical function with extended metadata and operations.
+ * The Logistic Map: x_{n+1} = r * x_n * (1 - x_n).
  * <p>
- * This interface is maintained for backward compatibility and specific
- * mathematical semantics. It now extends the enhanced {@link Function}
- * interface.
+ * A classic example of how complex, chaotic behaviour can arise from very
+ * simple
+ * non-linear dynamical equations.
  * </p>
- * 
- * @param <D> domain type
- * @param <C> codomain type
  * 
  * @author Silvere Martin-Michiellot
  * @author Gemini AI (Google DeepMind)
  * @since 1.0
  */
-public interface MathematicalFunction<D, C> extends Function<D, C> {
-    // Most functionality has been moved up to Function.
-    // This interface can serve as a marker or hold legacy specific methods if
-    // needed.
+public class LogisticMap implements DiscreteMap<Double> {
+
+    private final double r;
+
+    /**
+     * Creates a Logistic Map with parameter r.
+     * 
+     * @param r the growth rate parameter (typically [0, 4])
+     */
+    public LogisticMap(double r) {
+        this.r = r;
+    }
+
+    @Override
+    public Double evaluate(Double x) {
+        return r * x * (1.0 - x);
+    }
+
+    @Override
+    public String getDomain() {
+        return "[0, 1]";
+    }
+
+    @Override
+    public String getCodomain() {
+        return "[0, 1]";
+    }
+
+    @Override
+    public String toString() {
+        return "LogisticMap(r=" + r + ")";
+    }
 }

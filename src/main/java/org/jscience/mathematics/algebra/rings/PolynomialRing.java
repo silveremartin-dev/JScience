@@ -29,6 +29,10 @@ public class PolynomialRing<E> implements Ring<PolynomialRing.Polynomial<E>> {
         this.variableName = variableName;
     }
 
+    public Ring<E> getCoefficientRing() {
+        return coefficientRing;
+    }
+
     @Override
     public Polynomial<E> operate(Polynomial<E> left, Polynomial<E> right) {
         return add(left, right);
@@ -133,6 +137,43 @@ public class PolynomialRing<E> implements Ring<PolynomialRing.Polynomial<E>> {
             return new Polynomial<>(newCoeffs, ring);
         }
 
+        public E evaluate(E x) {
+            E result = ring.coefficientRing.zero();
+            E xPow = ring.coefficientRing.one();
+
+            // Evaluate sum(a_i * x^i)
+            // Optimization: Horner's method would be better but requires ordering.
+            // Since we have a TreeMap, we can iterate.
+            // But Horner's works best high-to-low.
+
+            E currentVal = ring.coefficientRing.zero();
+            // Iterate high degree to low for Horner's
+            List<Integer> degrees = new ArrayList<>(coefficients.keySet());
+            Collections.reverse(degrees);
+
+            if (degrees.isEmpty())
+                return result;
+
+            int currentDeg = degrees.get(0);
+
+            // Naive implementation for general rings (can be optimized)
+            for (Map.Entry<Integer, E> entry : coefficients.entrySet()) {
+                E term = entry.getValue();
+                int deg = entry.getKey();
+                E power = ring.coefficientRing.one();
+                for (int i = 0; i < deg; i++) {
+                    power = ring.coefficientRing.multiply(power, x);
+                }
+                term = ring.coefficientRing.multiply(term, power);
+                result = ring.coefficientRing.add(result, term);
+            }
+            return result;
+        }
+
+        public Map<Integer, E> getCoefficients() {
+            return Collections.unmodifiableMap(coefficients);
+        }
+
         @Override
         public String toString() {
             if (coefficients.isEmpty())
@@ -157,5 +198,9 @@ public class PolynomialRing<E> implements Ring<PolynomialRing.Polynomial<E>> {
             }
             return sb.toString();
         }
+    }
+
+    public Polynomial<E> create(Map<Integer, E> coefficients) {
+        return new Polynomial<>(coefficients, this);
     }
 }

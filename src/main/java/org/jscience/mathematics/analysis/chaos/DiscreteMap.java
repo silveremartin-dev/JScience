@@ -20,25 +20,45 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.jscience.mathematics.analysis;
+package org.jscience.mathematics.analysis.chaos;
+
+import org.jscience.mathematics.analysis.MathematicalFunction;
 
 /**
- * A mathematical function with extended metadata and operations.
+ * A discrete dynamical system defined by an iterative map.
  * <p>
- * This interface is maintained for backward compatibility and specific
- * mathematical semantics. It now extends the enhanced {@link Function}
- * interface.
+ * x_{n+1} = f(x_n)
  * </p>
  * 
- * @param <D> domain type
- * @param <C> codomain type
+ * @param <T> the state space type (e.g., Double, Vector2D)
  * 
  * @author Silvere Martin-Michiellot
  * @author Gemini AI (Google DeepMind)
  * @since 1.0
  */
-public interface MathematicalFunction<D, C> extends Function<D, C> {
-    // Most functionality has been moved up to Function.
-    // This interface can serve as a marker or hold legacy specific methods if
-    // needed.
+public interface DiscreteMap<T> extends MathematicalFunction<T, T> {
+
+    /**
+     * Iterates the map n times starting from x0.
+     * 
+     * @param x0         initial state
+     * @param iterations number of iterations
+     * @return x_n
+     */
+    default T iterate(T x0, int iterations) {
+        T x = x0;
+        for (int i = 0; i < iterations; i++) {
+            x = evaluate(x);
+        }
+        return x;
+    }
+
+    /**
+     * Returns the Lyapunov exponent of the map (if applicable).
+     * 
+     * @return Lyapunov exponent or NaN if unknown
+     */
+    default double getLyapunovExponent() {
+        return Double.NaN;
+    }
 }

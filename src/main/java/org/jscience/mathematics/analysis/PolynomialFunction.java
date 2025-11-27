@@ -1,89 +1,142 @@
+/*
+ * JScience - Java(TM) Tools and Libraries for the Advancement of Sciences.
+ * Copyright (C) 2025 - Silvere Martin-Michiellot (silvere.martin@gmail.com)
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
 package org.jscience.mathematics.analysis;
 
-import org.jscience.mathematics.number.Real;
-import org.jscience.mathematics.vector.Vector;
-import java.util.Arrays;
+import org.jscience.mathematics.algebra.Ring;
+import org.jscience.mathematics.algebra.ring.PolynomialRing;
+import java.util.Map;
+import java.util.HashMap;
 
 /**
- * Represents a polynomial function of a real variable.
+ * Represents a polynomial function P(x) over a Ring R.
  * <p>
  * P(x) = a_n * x^n + ... + a_1 * x + a_0
  * </p>
+ * 
+ * @param <R> the type of the ring elements (coefficients and variable)
  * 
  * @author Silvere Martin-Michiellot
  * @author Gemini AI (Google DeepMind)
  * @since 1.0
  */
-public class PolynomialFunction implements RealFunction {
+public class PolynomialFunction<R> implements DifferentiableFunction<R, R>, IntegrableFunction<R, R> {
 
-    private final double[] coefficients; // Ordered from lowest degree to highest (a_0, a_1, ...)
+    private final PolynomialRing.Polynomial<R> polynomial;
+    private final PolynomialRing<R> ring;
 
     /**
-     * Creates a new polynomial with the given coefficients.
+     * Creates a polynomial function from a polynomial object.
      * 
-     * @param coefficients the coefficients a_0, a_1, ..., a_n
+     * @param polynomial the underlying polynomial
+     * @param ring       the polynomial ring
      */
-    public PolynomialFunction(double... coefficients) {
-        this.coefficients = Arrays.copyOf(coefficients, coefficients.length);
+    public PolynomialFunction(PolynomialRing.Polynomial<R> polynomial, PolynomialRing<R> ring) {
+        this.polynomial = polynomial;
+        this.ring = ring;
     }
 
     @Override
-    public Real evaluate(Real x) {
-        return Real.of(evaluate(x.doubleValue()));
+    public R evaluate(R x) {
+        return polynomial.evaluate(x);
     }
-
-    /**
-     * Evaluates the polynomial using Horner's method.
-     */
-    public double evaluate(double x) {
-        double result = 0;
-        for (int i = coefficients.length - 1; i >= 0; i--) {
-            result = result * x + coefficients[i];
-        }
-        return result;
-    }
-
-    // @Override
-    // public Vector<Real> evaluate(Vector<Real> x) {
-    // return RealFunction.super.evaluate(x);
-    // }
 
     @Override
-    public RealFunction derivative() {
-        if (coefficients.length <= 1) {
-            return new PolynomialFunction(0);
+    public Function<R, R> differentiate() {
+        Map<Integer, R> coeffs = polynomial.getCoefficients();
+        Map<Integer, R> derivCoeffs = new HashMap<>();
+
+        Ring<R> r = ring.getCoefficientRing();
+
+        for (Map.Entry<Integer, R> entry : coeffs.entrySet()) {
+            int deg = entry.getKey();
+            if (deg > 0) {
+                R val = entry.getValue();
+                // Multiply by degree: val * deg
+                R newVal = r.zero();
+                // Naive repeated addition
+                for (int i = 0; i < deg; i++) {
+                    newVal = r.add(newVal, val);
+                }
+
+                derivCoeffs.put(deg - 1, newVal);
+            }
         }
-        double[] derivCoeffs = new double[coefficients.length - 1];
-        for (int i = 1; i < coefficients.length; i++) {
-            derivCoeffs[i - 1] = coefficients[i] * i;
+
+        return new PolynomialFunction<>(ring.create(derivCoeffs), ring);
+    }
+
+    @Override
+    public Function<R, R> integrate() {
+        if (!(ring.getCoefficientRing() instanceof org.jscience.mathematics.algebra.Field)) {
+            throw new UnsupportedOperationException("Integration requires a Field (division support). Current ring: "
+                    + ring.getCoefficientRing().getClass().getSimpleName());
         }
-        return new PolynomialFunction(derivCoeffs);
+
+        org.jscience.mathematics.algebra.Field<R> field = (org.jscience.mathematics.algebra.Field<R>) ring
+                .getCoefficientRing();
+
+        Map<Integer, R> coeffs = polynomial.getCoefficients();
+        Map<Integer, R> intCoeffs = new HashMap<>();
+
+        for (Map.Entry<Integer, R> entry : coeffs.entrySet()) {
+            int deg = entry.getKey();
+            R val = entry.getValue();
+
+            // Divide by (deg + 1)
+            R divisor = field.one();
+            for (int i = 0; i < deg; i++) {
+                divisor = field.add(divisor, field.one());
+            }
+
+            R newVal = field.divide(val, divisor);
+            intCoeffs.put(deg + 1, newVal);
+        }
+
+        return new PolynomialFunction<>(ring.create(intCoeffs), ring);
+    }
+
+    @Override
+    public R integrate(R start, R end) {
+        Function<R, R> F = integrate();
+        R fEnd = F.evaluate(end);
+        R fStart = F.evaluate(start);
+
+        Ring<R> r = ring.getCoefficientRing();
+        return r.add(fEnd, r.negate(fStart));
+    }
+
+    @Override
+    public String getDomain() {
+        return ring.description().split("\\[")[0];
+    }
+
+    @Override
+    public String getCodomain() {
+        return getDomain();
     }
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        for (int i = coefficients.length - 1; i >= 0; i--) {
-            double c = coefficients[i];
-            if (c == 0)
-                continue;
-
-            if (sb.length() > 0) {
-                sb.append(c > 0 ? " + " : " - ");
-            } else if (c < 0) {
-                sb.append("-");
-            }
-
-            double absC = Math.abs(c);
-            if (absC != 1.0 || i == 0)
-                sb.append(absC);
-
-            if (i > 0) {
-                sb.append("x");
-                if (i > 1)
-                    sb.append("^").append(i);
-            }
-        }
-        return sb.length() == 0 ? "0" : sb.toString();
+        return polynomial.toString();
     }
 }

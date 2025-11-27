@@ -23,11 +23,9 @@
 package org.jscience.mathematics.analysis;
 
 /**
- * A mathematical function with extended metadata and operations.
+ * Represents a differentiable function.
  * <p>
- * This interface is maintained for backward compatibility and specific
- * mathematical semantics. It now extends the enhanced {@link Function}
- * interface.
+ * A function that has a derivative at every point in its domain.
  * </p>
  * 
  * @param <D> domain type
@@ -37,8 +35,17 @@ package org.jscience.mathematics.analysis;
  * @author Gemini AI (Google DeepMind)
  * @since 1.0
  */
-public interface MathematicalFunction<D, C> extends Function<D, C> {
-    // Most functionality has been moved up to Function.
-    // This interface can serve as a marker or hold legacy specific methods if
-    // needed.
+public interface DifferentiableFunction<D, C> extends ContinuousFunction<D, C> {
+
+    /**
+     * Returns the derivative of this function.
+     * 
+     * @return f'
+     */
+    Function<D, C> differentiate();
+
+    @Override
+    default boolean isDifferentiable() {
+        return true;
+    }
 }

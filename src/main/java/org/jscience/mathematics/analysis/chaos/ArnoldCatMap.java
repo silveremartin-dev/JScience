@@ -20,25 +20,54 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.jscience.mathematics.analysis;
+package org.jscience.mathematics.analysis.chaos;
+
+import org.jscience.mathematics.geometry.Point2D;
 
 /**
- * A mathematical function with extended metadata and operations.
+ * Arnold's Cat Map:
+ * x_{n+1} = (2x_n + y_n) mod 1
+ * y_{n+1} = (x_n + y_n) mod 1
  * <p>
- * This interface is maintained for backward compatibility and specific
- * mathematical semantics. It now extends the enhanced {@link Function}
- * interface.
+ * A chaotic map from the torus into itself. It is an example of an Anosov
+ * diffeomorphism.
  * </p>
- * 
- * @param <D> domain type
- * @param <C> codomain type
  * 
  * @author Silvere Martin-Michiellot
  * @author Gemini AI (Google DeepMind)
  * @since 1.0
  */
-public interface MathematicalFunction<D, C> extends Function<D, C> {
-    // Most functionality has been moved up to Function.
-    // This interface can serve as a marker or hold legacy specific methods if
-    // needed.
+public class ArnoldCatMap implements DiscreteMap<Point2D> {
+
+    @Override
+    public Point2D evaluate(Point2D p) {
+        double x = p.getX().doubleValue();
+        double y = p.getY().doubleValue();
+
+        double nextX = (2 * x + y) % 1.0;
+        double nextY = (x + y) % 1.0;
+
+        // Ensure positive result for modulo
+        if (nextX < 0)
+            nextX += 1.0;
+        if (nextY < 0)
+            nextY += 1.0;
+
+        return Point2D.of(nextX, nextY);
+    }
+
+    @Override
+    public String getDomain() {
+        return "[0, 1]² (Torus)";
+    }
+
+    @Override
+    public String getCodomain() {
+        return "[0, 1]² (Torus)";
+    }
+
+    @Override
+    public String toString() {
+        return "ArnoldCatMap";
+    }
 }
