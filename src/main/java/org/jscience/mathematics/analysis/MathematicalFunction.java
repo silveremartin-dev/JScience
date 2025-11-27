@@ -20,42 +20,67 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.jscience.mathematics.sequences;
+package org.jscience.mathematics.analysis;
 
-import java.math.BigInteger;
+import java.util.function.Function;
 
 /**
- * Fibonacci sequence: F(0) = 0, F(1) = 1, F(n) = F(n-1) + F(n-2).
+ * A mathematical function from domain D to codomain C.
  * <p>
- * OEIS A000045: The Fibonacci numbers.
+ * This extends Java's Function to add mathematical metadata and operations.
+ * Sequences can be viewed as functions ℕ → T.
  * </p>
+ * 
+ * @param <D> domain type
+ * @param <C> codomain type
  * 
  * @author Silvere Martin-Michiellot (silvere.martin@gmail.com)
  * @author Gemini AI (Google DeepMind)
  * @since 1.0
  */
-public class FibonacciSequence implements IntegerSequence {
+public interface MathematicalFunction<D, C> extends Function<D, C> {
 
+    /**
+     * Evaluates the function at x.
+     * 
+     * @param x input value
+     * @return f(x)
+     */
     @Override
-    public BigInteger get(int n) {
-        if (n < 0)
-            throw new IllegalArgumentException("n must be ≥ 0");
-        if (n == 0)
-            return BigInteger.ZERO;
-        if (n == 1)
-            return BigInteger.ONE;
+    C apply(D x);
 
-        BigInteger a = BigInteger.ZERO;
-        BigInteger b = BigInteger.ONE;
-
-        for (int i = 2; i <= n; i++) {
-            BigInteger temp = a.add(b);
-            a = b;
-            b = temp;
+    /**
+     * Returns the domain description.
+     * 
+     * @return domain name (e.g., "ℝ", "ℕ", "ℂ")
+     */
+    default String getDomain() {
+        return "?";
     }
 
+    /**
+     * Returns the codomain description.
+     * 
+     * @return codomain name
+     */
+    default String getCodomain() {
+        return "?";
+    }
+
+    /**
+     * Composes this function with another: g ∘ f.
+     * 
+     * @param <R>   result type
+     * @param after function to apply after this
+     * @return g(f(x))
+     */
     @Override
-    public String getFormula() {
-        return "F(n) = F(n-1) + F(n-2) with F(0) = 0, F(1) = 1";
+    default <R> MathematicalFunction<D, R> andThen(Function<? super C, ? extends R> after) {
+        return new MathematicalFunction<D, R>() {
+            @Override
+            public R apply(D x) {
+                return after.apply(MathematicalFunction.this.apply(x));
+            }
+        };
     }
 }
