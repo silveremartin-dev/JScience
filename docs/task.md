@@ -41,9 +41,9 @@
         - [x] Global ComputeMode setting
         - [x] Global MathContext setting
         - [x] Logging & Introspection (Query capabilities, active mode)
-    - [/] Operational Tooling
+    - [x] Operational Tooling
         - [x] Launch Scripts (Launcher.java - Portable)
-        - [ ] Documentation (Setup & Usage)
+        - [x] Documentation (Setup & Usage)
     - [/] Advanced Linear Algebra (Feature Parity with ND4J/Apache Math)
         - [x] Submatrix Operations
         - [x] Decompositions (LU, QR, Cholesky)
