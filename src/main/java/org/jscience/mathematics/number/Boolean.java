@@ -41,91 +41,55 @@ import org.jscience.mathematics.algebra.FiniteSet;
  * 
  * <h2>Usage</h2>
  * 
- * <pre>{@code
+ * <pre>
+ * {@code
  * Boolean t = Boolean.TRUE;
- * Boolean f = Boolean.FALSE;
+    /** The boolean value true (1) *
+ /
+public static final Boolean TRUE=new Boolean(true);
+
+/** The boolean value false (0) */
+public static final Boolean FALSE=new Boolean(false);
+
+private final boolean value;
+
+private Boolean(boolean value){this.value=value;}
+
+/**
+ * Returns the Boolean instance representing the specified boolean value.
  * 
- * Boolean or = t.add(f); // TRUE (OR)
- * Boolean and = t.multiply(f); // FALSE (AND)
- * }</pre>
- * 
- * @see org.jscience.mathematics.number.set.Booleans
- * @author Silvere Martin-Michiellot
- * @author Gemini AI (Google DeepMind)
- * @since 1.0
+ * @param value the boolean value
+ * @return {@link #TRUE} if value is true, {@link #FALSE} otherwise
  */
-public final class Boolean implements Comparable<Boolean> {
+public static Boolean of(boolean value){return value?TRUE:FALSE;}
 
-    /** The boolean value true (1) */
-    public static final Boolean TRUE = new Boolean(true);
+/**
+ * Returns the primitive boolean value.
+ * 
+ * @return the boolean value
+ */
+public boolean booleanValue(){return value;}
 
-    /** The boolean value false (0) */
-    public static final Boolean FALSE = new Boolean(false);
+// --- Semiring Operations (Add=OR, Mult=AND) ---
 
-    private final boolean value;
+public Boolean add(Boolean other){return of(value||other.value);}
 
-    private Boolean(boolean value) {
-        this.value = value;
-    }
+public Boolean zero(){return FALSE;}
 
-    /**
-     * Returns the Boolean instance representing the specified boolean value.
-     * 
-     * @param value the boolean value
-     * @return {@link #TRUE} if value is true, {@link #FALSE} otherwise
-     */
-    public static Boolean of(boolean value) {
-        return value ? TRUE : FALSE;
-    }
+public Boolean multiply(Boolean other){return of(value&&other.value);}
 
-    /**
-     * Returns the primitive boolean value.
-     * 
-     * @return the boolean value
-     */
-    public boolean booleanValue() {
-        return value;
-    }
+public Boolean one(){return TRUE;}
 
-    // --- Semiring Operations (Add=OR, Mult=AND) ---
+// --- Lattice Operations (Join=OR, Meet=AND) ---
 
-    public Boolean add(Boolean other) {
-        return of(value || other.value);
-    }
+public Boolean join(Boolean other){return of(value||other.value);}
 
-    public Boolean zero() {
-        return FALSE;
-    }
+public Boolean meet(Boolean other){return of(value&&other.value);}
 
-    public Boolean multiply(Boolean other) {
-        return of(value && other.value);
-    }
+// --- Standard Methods ---
 
-    public Boolean one() {
-        return TRUE;
-    }
+// --- Standard Methods ---
 
-    // --- Lattice Operations (Join=OR, Meet=AND) ---
+@Override public int compareTo(Boolean other){return java.lang.Boolean.compare(value,other.value);}
 
-    public Boolean join(Boolean other) {
-        return of(value || other.value);
-    }
-
-    public Boolean meet(Boolean other) {
-        return of(value && other.value);
-    }
-
-    // --- Standard Methods ---
-
-    // --- Standard Methods ---
-
-    @Override
-    public int compareTo(Boolean other) {
-        return java.lang.Boolean.compare(value, other.value);
-    }
-
-    @Override
-    public String toString() {
-        return java.lang.Boolean.toString(value);
-    }
-}
+@Override public String toString(){return java.lang.Boolean.toString(value);}}

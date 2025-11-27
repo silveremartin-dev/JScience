@@ -20,59 +20,44 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.jscience.mathematics.logic;
 
 /**
- * Modal logic for reasoning about necessity and possibility.
+ * Graph traversal strategies and algorithms.
  * <p>
- * Modal logic extends classical logic with modal operators:
+ * This package provides pluggable traversal algorithms for graphs with optional
+ * backend acceleration support.
+ * </p>
+ * <p>
+ * <b>Standard traversals:</b>
  * <ul>
- * <li>□ (Box/Necessarily) - true in all possible worlds</li>
- * <li>◇ (Diamond/Possibly) - true in at least one possible world</li>
+ * <li>{@link org.jscience.mathematics.discrete.graph.DFSTraversal} -
+ * Depth-first search</li>
+ * <li>{@link org.jscience.mathematics.discrete.graph.BFSTraversal} -
+ * Breadth-first search</li>
  * </ul>
  * </p>
  * <p>
- * Common modal logic systems:
- * <ul>
- * <li><strong>K</strong>: Basic modal logic</li>
- * <li><strong>T</strong>: K + reflexivity (□φ → φ)</li>
- * <li><strong>S4</strong>: T + transitivity (□φ → □□φ)</li>
- * <li><strong>S5</strong>: S4 + symmetry (◇φ → □◇φ)</li>
- * </ul>
- * </p>
+ * <b>Usage example:</b>
  * 
- * @param <T> truth value type
+ * <pre>
+ * Graph&lt;String&gt; graph = new DirectedGraph&lt;&gt;();
+ * // ... populate graph ...
+ * 
+ * // DFS traversal
+ * graph.dfs("start", (vertex, depth) -> {
+ *     System.out.println(" ".repeat(depth) + vertex);
+ * });
+ * 
+ * // Custom strategy
+ * GraphTraversalStrategy&lt;String&gt; strategy = new BFSTraversal&lt;&gt;();
+ * graph.traverse("start", strategy, (vertex, depth) -> {
+ *     System.out.println("Level " + depth + ": " + vertex);
+ * });
+ * </pre>
+ * </p>
  * 
  * @author Silvere Martin-Michiellot (silvere.martin@gmail.com)
  * @author Gemini AI (Google DeepMind)
  * @since 1.0
  */
-public interface ModalLogic<T> extends Logic<T> {
-
-    /**
-     * Modal operator: □φ (Necessarily).
-     * True if φ is true in all accessible possible worlds.
-     * 
-     * @param proposition the proposition
-     * @return □φ
-     */
-    T necessarily(Proposition<T> proposition);
-
-    /**
-     * Modal operator: ◇φ (Possibly).
-     * True if φ is true in at least one accessible possible world.
-     * 
-     * @param proposition the proposition
-     * @return ◇φ
-     */
-    T possibly(Proposition<T> proposition);
-
-    /**
-     * Returns the modal logic system (K, T, S4, S5, etc.).
-     * 
-     * @return the system name
-     */
-    default String getSystem() {
-        return "K"; // Basic modal logic
-    }
-}
+package org.jscience.mathematics.discrete.graph;

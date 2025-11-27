@@ -23,7 +23,8 @@
 package org.jscience.mathematics.analysis.series;
 
 import org.jscience.mathematics.discrete.Combinatorics;
-import java.math.BigInteger;
+import org.jscience.mathematics.number.Integer;
+import org.jscience.mathematics.number.Natural;
 
 /**
  * Catalan numbers: C(0)=1, C(n) = (2n)! / ((n+1)! * n!).
@@ -46,14 +47,16 @@ import java.math.BigInteger;
 public class CatalanSequence implements IntegerSequence {
 
     @Override
-    public BigInteger get(int n) {
-        if (n < 0)
-            throw new IllegalArgumentException("n must be ≥ 0");
-        return Combinatorics.catalan(n);
+    public Integer get(Natural n) {
+        // Note: Combinatorics.catalan would need to be updated to return Integer
+        // For now, we convert from BigInteger if needed
+        int nInt = n.intValue();
+        java.math.BigInteger bigResult = Combinatorics.catalan(nInt);
+        return Integer.valueOf(bigResult);
     }
 
     @Override
-    public String getOeisId() {
+    public String getOEISId() {
         return "A000108";
     }
 
@@ -65,5 +68,10 @@ public class CatalanSequence implements IntegerSequence {
     @Override
     public String getFormula() {
         return "C(n) = (2n)! / ((n+1)! * n!) = binom(2n, n) / (n+1)";
+    }
+
+    @Override
+    public String getCodomain() {
+        return "ℤ⁺";
     }
 }

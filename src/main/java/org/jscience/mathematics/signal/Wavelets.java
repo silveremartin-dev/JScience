@@ -1,20 +1,4 @@
-package org.jscience.mathematics.signal;
-
-import org.jscience.mathematics.number.Real;
-import org.jscience.mathematics.vector.DenseVector;
-import org.jscience.mathematics.vector.Vector;
-import org.jscience.mathematics.number.set.Reals;
-
-import java.util.ArrayList;
-import java.util.List;
-
-/**
- * Implements Discrete Wavelet Transform (DWT) using the Haar wavelet.
- * <p>
- * The Haar wavelet is the simplest possible wavelet.
- * </p>
- * 
- * @author Silvere Martin-Michiellot
+*<p>*The Haar wavelet is the simplest possible wavelet.*</p>**@author Silvere Martin-Michiellot
  * @author Gemini AI (Google DeepMind)
  * @since 1.0
  */

@@ -1,4 +1,4 @@
-package org.jscience.mathematics.logic;
+package org.jscience.mathematics.logic.propositional;
 
 /**
  * Classical two-valued Boolean logic.

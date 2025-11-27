@@ -1,18 +1,4 @@
-package org.jscience.mathematics.geometry;
-
-import java.util.Arrays;
-import org.jscience.mathematics.number.Real;
-import org.jscience.mathematics.number.set.Reals;
-import org.jscience.mathematics.vector.DenseVector;
-
-/**
- * Represents a vector in 3D Euclidean space.
- * <p>
- * This is a specialized subclass of {@link DenseVector} for 3D geometry,
- * providing convenient constructors and accessors.
- * </p>
- * 
- * @author Silvere Martin-Michiellot
+*providing convenient constructors and accessors.*</p>**@author Silvere Martin-Michiellot
  * @author Gemini AI (Google DeepMind)
  * @since 1.0
  */

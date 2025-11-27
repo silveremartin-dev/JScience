@@ -31,6 +31,15 @@ import org.jscience.mathematics.number.Complex;
  * M = { c ∈ ℂ : the sequence z₀ = 0, zₙ₊₁ = zₙ² + c remains bounded }
  * </p>
  * 
+ * <h2>References</h2>
+ * <ul>
+ * <li>Benoit B. Mandelbrot, "The Fractal Geometry of Nature",
+ * W.H. Freeman and Company, 1982</li>
+ * <li>Adrien Douady and John H. Hubbard, "Étude dynamique des polynômes
+ * complexes",
+ * Publications Mathématiques d'Orsay, 1984-1985</li>
+ * </ul>
+ * 
  * @author Silvere Martin-Michiellot (silvere.martin@gmail.com)
  * @author Gemini AI (Google DeepMind)
  * @since 1.0

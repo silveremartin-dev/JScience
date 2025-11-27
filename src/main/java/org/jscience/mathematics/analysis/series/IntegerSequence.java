@@ -22,27 +22,52 @@
  */
 package org.jscience.mathematics.analysis.series;
 
-import java.math.BigInteger;
+import org.jscience.mathematics.number.Integer;
+import org.jscience.mathematics.number.Natural;
 
 /**
- * A sequence of integers.
+ * A sequence of integers (ℤ).
  * <p>
- * Most OEIS sequences are integer sequences.
+ * Most OEIS sequences are integer sequences. This interface uses JScience
+ * {@link Integer} for arbitrary-precision integer values.
+ * </p>
+ * <p>
+ * <b>Migration from BigInteger:</b><br>
+ * Previous versions used {@code java.math.BigInteger}. This version uses
+ * {@code org.jscience.mathematics.number.Integer} for consistency with
+ * the JScience type system.
  * </p>
  * 
  * @author Silvere Martin-Michiellot (silvere.martin@gmail.com)
  * @author Gemini AI (Google DeepMind)
  * @since 1.0
  */
-public interface IntegerSequence extends Sequence<BigInteger> {
+public interface IntegerSequence extends Sequence<Integer> {
 
     /**
-     * Convenience method for small indices.
+     * Convenience method for small indices that fit in a long.
+     * <p>
+     * Use this when you know the sequence value will fit in a {@code long}.
+     * For arbitrary-precision results, use {@link #get(Natural)} or
+     * {@link #get(int)}.
+     * </p>
      * 
      * @param n the index
-     * @return a(n) as long (may overflow)
+     * @return a(n) as long
+     * @throws ArithmeticException if the value doesn't fit in a long
      */
     default long getLong(int n) {
+        return get(n).longValue();
+    }
+
+    /**
+     * Convenience method to get value as long using Natural index.
+     * 
+     * @param n the index
+     * @return a(n) as long
+     * @throws ArithmeticException if the value doesn't fit in a long
+     */
+    default long getLong(Natural n) {
         return get(n).longValue();
     }
 }

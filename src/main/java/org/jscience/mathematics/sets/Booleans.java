@@ -21,7 +21,7 @@
  * SOFTWARE.
  */
 
-package org.jscience.mathematics.number.set;
+package org.jscience.mathematics.sets;
 
 import org.jscience.mathematics.algebra.Semiring;
 import org.jscience.mathematics.algebra.FiniteSet;

@@ -20,25 +20,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package org.jscience.mathematics.analysis;
 
 /**
- * A mathematical function with extended metadata and operations.
+ * Propositional logic - classical Boolean logic.
  * <p>
- * This interface is maintained for backward compatibility and specific
- * mathematical semantics. It now extends the enhanced {@link Function}
- * interface.
+ * This package contains fundamental propositional logic components including
+ * Boolean logic, propositions, and truth values.
+ * </p>
+ * <p>
+ * <b>Core concepts:</b>
+ * <ul>
+ * <li>{@link org.jscience.mathematics.logic.propositional.BooleanLogic} -
+ * Boolean operations</li>
+ * <li>{@link org.jscience.mathematics.logic.propositional.Proposition} -
+ * Logical statements</li>
+ * <li>{@link org.jscience.mathematics.logic.propositional.TruthValue} - Truth
+ * value representation</li>
+ * </ul>
  * </p>
  * 
- * @param <D> domain type
- * @param <C> codomain type
- * 
- * @author Silvere Martin-Michiellot
+ * @author Silvere Martin-Michiellot (silvere.martin@gmail.com)
  * @author Gemini AI (Google DeepMind)
  * @since 1.0
  */
-public interface MathematicalFunction<D, C> extends Function<D, C> {
-    // Most functionality has been moved up to Function.
-    // This interface can serve as a marker or hold legacy specific methods if
-    // needed.
-}
+package org.jscience.mathematics.logic.propositional;

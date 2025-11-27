@@ -1,17 +1,4 @@
-package org.jscience.mathematics.vector;
-
-import org.jscience.mathematics.algebra.VectorSpace;
-import org.jscience.mathematics.number.Real;
-import org.jscience.mathematics.number.set.Reals;
-import java.util.Arrays;
-
-/**
- * Represents a 3-dimensional Real Vector Space (R^3).
- * <p>
- * Optimized for 3D geometry and physics.
- * </p>
- * 
- * @author Silvere Martin-Michiellot
+*</p>**@author Silvere Martin-Michiellot
  * @author Gemini AI (Google DeepMind)
  * @since 1.0
  */

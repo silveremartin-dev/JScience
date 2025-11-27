@@ -42,256 +42,188 @@ import org.jscience.mathematics.context.MathContext;
  * 
  * <h2>Usage</h2>
  * 
- * <pre>{@code
+ * <pre>
+ * {@code
  * // Default (NORMAL precision -> double)
  * Real pi = Real.of(3.14159);
- * 
- * // Explicit precision
- * MathContext.setCurrent(MathContext.exact());
- * Real exactPi = Real.of("3.14159265358979323846"); // Uses BigDecimal
- * }</pre>
- * 
- * @see org.jscience.mathematics.number.set.Reals
- * @author Silvere Martin-Michiellot
- * @author Gemini AI (Google DeepMind)
- * @since 1.0
- */
-public abstract class Real implements Comparable<Real> {
 
     private static final class Constants {
         private static final Real ZERO = RealDouble.of(0.0);
         private static final Real ONE = RealDouble.of(1.0);
         private static final Real NaN = RealDouble.of(Double.NaN);
-    }
+ * }
+ * 
+ * /** The real number 0
+ */
+public static final Real ZERO=Constants.ZERO;
 
-    /** The real number 0 */
-    public static final Real ZERO = Constants.ZERO;
+/** The real number 1 */
+public static final Real ONE=Constants.ONE;
 
-    /** The real number 1 */
-    public static final Real ONE = Constants.ONE;
+/** The real number NaN */
+public static final Real NaN=Constants.NaN;
 
-    /** The real number NaN */
-    public static final Real NaN = Constants.NaN;
+/**
+ * Creates a real number from a double value.
+ * Uses current MathContext to decide implementation.
+ * 
+ * @param value the value
+ * @return the Real instance
+ */
+public static Real of(double value){if(value==0.0)return ZERO;if(value==1.0)return ONE;if(Double.isNaN(value))return NaN;
 
-    /**
-     * Creates a real number from a double value.
-     * Uses current MathContext to decide implementation.
-     * 
-     * @param value the value
-     * @return the Real instance
-     */
-    public static Real of(double value) {
-        if (value == 0.0)
-            return ZERO;
-        if (value == 1.0)
-            return ONE;
-        if (Double.isNaN(value))
-            return NaN;
+switch(MathContext.getCurrent().getRealPrecision()){case FAST:return RealFloat.of((float)value);case EXACT:return RealBigDecimal.of(BigDecimal.valueOf(value));case NORMAL:default:return RealDouble.of(value);}}
 
-        switch (MathContext.getCurrent().getRealPrecision()) {
-            case FAST:
-                return RealFloat.of((float) value);
-            case EXACT:
-                return RealBigDecimal.of(BigDecimal.valueOf(value));
-            case NORMAL:
-            default:
-                return RealDouble.of(value);
-        }
-    }
+/**
+ * Creates a real number from a String representation.
+ * 
+ * @param value the string value
+ * @return the Real instance
+ */
+public static Real of(String value){switch(MathContext.getCurrent().getRealPrecision()){case FAST:return RealFloat.of(Float.parseFloat(value));case EXACT:return RealBigDecimal.of(new BigDecimal(value));case NORMAL:default:return RealDouble.of(Double.parseDouble(value));}}
 
-    /**
-     * Creates a real number from a String representation.
-     * 
-     * @param value the string value
-     * @return the Real instance
-     */
-    public static Real of(String value) {
-        switch (MathContext.getCurrent().getRealPrecision()) {
-            case FAST:
-                return RealFloat.of(Float.parseFloat(value));
-            case EXACT:
-                return RealBigDecimal.of(new BigDecimal(value));
-            case NORMAL:
-            default:
-                return RealDouble.of(Double.parseDouble(value));
-        }
-    }
+// Package-private constructor
+Real(){}
 
-    // Package-private constructor
-    Real() {
-    }
+// --- Abstract operations ---
 
-    // --- Abstract operations ---
+public abstract Real add(Real other);
 
-    public abstract Real add(Real other);
+public abstract Real subtract(Real other);
 
-    public abstract Real subtract(Real other);
+public abstract Real multiply(Real other);
 
-    public abstract Real multiply(Real other);
+public abstract Real divide(Real other);
 
-    public abstract Real divide(Real other);
+public abstract Real negate();
 
-    public abstract Real negate();
+public abstract Real abs();
 
-    public abstract Real abs();
+public abstract Real inverse();
 
-    public abstract Real inverse();
+public abstract Real sqrt();
 
-    public abstract Real sqrt();
+public abstract Real pow(int exp);
 
-    public abstract Real pow(int exp);
+public abstract Real pow(Real exp);
 
-    public abstract Real pow(Real exp);
+public abstract boolean isZero();
 
-    public abstract boolean isZero();
+public abstract boolean isOne();
 
-    public abstract boolean isOne();
+public abstract boolean isNaN();
 
-    public abstract boolean isNaN();
+public abstract boolean isInfinite();
 
-    public abstract boolean isInfinite();
+public abstract double doubleValue();
 
-    public abstract double doubleValue();
+public abstract BigDecimal bigDecimalValue();
 
-    public abstract BigDecimal bigDecimalValue();
+// --- Standard methods ---
 
-    // --- Standard methods ---
+@Override public abstract boolean equals(Object obj);
 
-    @Override
-    public abstract boolean equals(Object obj);
+@Override public abstract int hashCode();
 
-    @Override
-    public abstract int hashCode();
+@Override public abstract String toString();
 
-    @Override
-    public abstract String toString();
+@Override public abstract int compareTo(Real other);
 
-    @Override
-    public abstract int compareTo(Real other);
+// --- Transcendental Functions ---
 
-    // --- Transcendental Functions ---
+/**
+ * Returns the sign of this number (-1, 0, or 1).
+ * 
+ * @return -1 if negative, 0 if zero, 1 if positive
+ */
+public int sign(){int cmp=this.compareTo(Real.ZERO);return cmp>0?1:(cmp<0?-1:0);}
 
-    /**
-     * Returns the sign of this number (-1, 0, or 1).
-     * 
-     * @return -1 if negative, 0 if zero, 1 if positive
-     */
-    public int sign() {
-        int cmp = this.compareTo(Real.ZERO);
-        return cmp > 0 ? 1 : (cmp < 0 ? -1 : 0);
-    }
+// abs() is already defined below or above.
+// Removing this block.
 
-    // abs() is already defined below or above.
-    // Removing this block.
+/**
+ * Returns this number raised to a power.
+ * 
+ * @param exponent the exponent
+ * @return this^exponent
+ */
+public Real pow(double exponent){return Real.of(Math.pow(this.doubleValue(),exponent));}
 
-    /**
-     * Returns this number raised to a power.
-     * 
-     * @param exponent the exponent
-     * @return this^exponent
-     */
-    public Real pow(double exponent) {
-        return Real.of(Math.pow(this.doubleValue(), exponent));
-    }
+/**
+ * Returns e raised to this number.
+ * 
+ * @return e^this
+ */
+public Real exp(){return Real.of(Math.exp(this.doubleValue()));}
 
-    /**
-     * Returns e raised to this number.
-     * 
-     * @return e^this
-     */
-    public Real exp() {
-        return Real.of(Math.exp(this.doubleValue()));
-    }
+/**
+ * Returns the natural logarithm of this number.
+ * 
+ * @return ln(this)
+ */
+public Real log(){return Real.of(Math.log(this.doubleValue()));}
 
-    /**
-     * Returns the natural logarithm of this number.
-     * 
-     * @return ln(this)
-     */
-    public Real log() {
-        return Real.of(Math.log(this.doubleValue()));
-    }
+/**
+ * Returns the base-10 logarithm of this number.
+ * 
+ * @return log₁₀(this)
+ */
+public Real log10(){return Real.of(Math.log10(this.doubleValue()));}
 
-    /**
-     * Returns the base-10 logarithm of this number.
-     * 
-     * @return log₁₀(this)
-     */
-    public Real log10() {
-        return Real.of(Math.log10(this.doubleValue()));
-    }
+/**
+ * Returns the sine of this number (in radians).
+ * 
+ * @return sin(this)
+ */
+public Real sin(){return Real.of(Math.sin(this.doubleValue()));}
 
-    /**
-     * Returns the sine of this number (in radians).
-     * 
-     * @return sin(this)
-     */
-    public Real sin() {
-        return Real.of(Math.sin(this.doubleValue()));
-    }
+/**
+ * Returns the cosine of this number (in radians).
+ * 
+ * @return cos(this)
+ */
+public Real cos(){return Real.of(Math.cos(this.doubleValue()));}
 
-    /**
-     * Returns the cosine of this number (in radians).
-     * 
-     * @return cos(this)
-     */
-    public Real cos() {
-        return Real.of(Math.cos(this.doubleValue()));
-    }
+/**
+ * Returns the tangent of this number (in radians).
+ * 
+ * @return tan(this)
+ */
+public Real tan(){return Real.of(Math.tan(this.doubleValue()));}
 
-    /**
-     * Returns the tangent of this number (in radians).
-     * 
-     * @return tan(this)
-     */
-    public Real tan() {
-        return Real.of(Math.tan(this.doubleValue()));
-    }
+/**
+ * Returns the arcsine of this number.
+ * 
+ * @return arcsin(this) in radians
+ */
+public Real asin(){return Real.of(Math.asin(this.doubleValue()));}
 
-    /**
-     * Returns the arcsine of this number.
-     * 
-     * @return arcsin(this) in radians
-     */
-    public Real asin() {
-        return Real.of(Math.asin(this.doubleValue()));
-    }
+/**
+ * Returns the arccosine of this number.
+ * 
+ * @return arccos(this) in radians
+ */
+public Real acos(){return Real.of(Math.acos(this.doubleValue()));}
 
-    /**
-     * Returns the arccosine of this number.
-     * 
-     * @return arccos(this) in radians
-     */
-    public Real acos() {
-        return Real.of(Math.acos(this.doubleValue()));
-    }
+/**
+ * Returns the arctangent of this number.
+ * 
+ * @return arctan(this) in radians
+ */
+public Real atan(){return Real.of(Math.atan(this.doubleValue()));}
 
-    /**
-     * Returns the arctangent of this number.
-     * 
-     * @return arctan(this) in radians
-     */
-    public Real atan() {
-        return Real.of(Math.atan(this.doubleValue()));
-    }
+/**
+ * Returns the minimum of this and another number.
+ * 
+ * @param other the other number
+ * @return min(this, other)
+ */
+public Real min(Real other){return this.compareTo(other)<=0?this:other;}
 
-    /**
-     * Returns the minimum of this and another number.
-     * 
-     * @param other the other number
-     * @return min(this, other)
-     */
-    public Real min(Real other) {
-        return this.compareTo(other) <= 0 ? this : other;
-    }
-
-    /**
-     * Returns the maximum of this and another number.
-     * 
-     * @param other the other number
-     * @return max(this, other)
-     */
-    public Real max(Real other) {
-        return this.compareTo(other) >= 0 ? this : other;
-    }
-}
+/**
+ * Returns the maximum of this and another number.
+ * 
+ * @param other the other number
+ * @return max(this, other)
+ */
+public Real max(Real other){return this.compareTo(other)>=0?this:other;}}

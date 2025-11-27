@@ -1,26 +1,8 @@
-package org.jscience.mathematics.signal;
-
-import org.jscience.mathematics.number.Complex;
-import org.jscience.mathematics.number.Real;
-import org.jscience.mathematics.vector.DenseVector;
-import org.jscience.mathematics.vector.Vector;
-import org.jscience.mathematics.number.set.Complexes;
-
-import java.util.ArrayList;
-import java.util.List;
-
-/**
- * Implements the Fast Fourier Transform (FFT).
- * <p>
- * Uses the Cooley-Tukey algorithm for efficient computation of the Discrete
- * Fourier Transform (DFT).
- * </p>
- * 
- * @author Silvere Martin-Michiellot
- * @author Gemini AI (Google DeepMind)
- * @since 1.0
- */
-public final class FastFourierTransform {
+*<p>*Uses the Cooley-Tukey algorithm for efficient computation of the Discrete*Fourier Transform(DFT).*</p>**
+@author Silvere Martin-Michiellot*
+@author Gemini AI(Google DeepMind)*
+@since
+1.0*/public final class FastFourierTransform {
 
     private FastFourierTransform() {
         // Utility class

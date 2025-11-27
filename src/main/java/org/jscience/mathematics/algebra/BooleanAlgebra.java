@@ -89,6 +89,16 @@ package org.jscience.mathematics.algebra;
  * <li>Can have larger Boolean algebras (power sets)</li>
  * </ul>
  * 
+ * <h2>References</h2>
+ * <ul>
+ * <li>George Boole, "The Mathematical Analysis of Logic", Cambridge: Macmillan,
+ * Barclay, and Macmillan, 1847</li>
+ * <li>Claude E. Shannon, "A Symbolic Analysis of Relay and Switching Circuits",
+ * Master's Thesis, MIT, 1937</li>
+ * <li>Alfred North Whitehead and Bertrand Russell, "Principia Mathematica",
+ * Cambridge University Press, 1910-1913</li>
+ * </ul>
+ * 
  * @author Silvere Martin-Michiellot
  * @author Gemini AI (Google DeepMind)
  * @version 1.0

@@ -43,231 +43,181 @@ import org.jscience.mathematics.algebra.Ring;
  * 
  * <h2>Usage</h2>
  * 
- * <pre>{@code
+ * <pre>
+ * {@code
  * // Smart factory chooses optimal backing
  * Integer small = Integer.of(100); // Uses int internally
  * Integer large = Integer.of(1_000_000_000_000L); // Uses long
  * Integer huge = Integer.of(new BigInteger("999999999999999999999")); // Uses BigInteger
+
+    /** The integer 0 *
+ /
+public static final Integer ZERO=IntegerInt.of(0);
+
+/** The integer 1 */
+public static final Integer ONE=IntegerInt.of(1);
+
+/** The integer -1 */
+public static final Integer MINUS_ONE=IntegerInt.of(-1);
+
+/**
+ * Creates an integer from a long value.
+ * Automatically selects optimal backing implementation.
  * 
- * // Ergonomic operations
- * Integer sum = small.add(Integer.of(50));
- * Integer product = sum.multiply(Integer.of(-2));
- * }</pre>
- * 
- * @see org.jscience.mathematics.number.set.Integers
- * @author Silvere Martin-Michiellot
- * @author Gemini AI (Google DeepMind)
- * @since 1.0
+ * @param value the value
+ * @return the Integer instance
  */
-public abstract class Integer implements Comparable<Integer> {
+public static Integer of(long value){if(value==0)return ZERO;if(value==1)return ONE;if(value==-1)return MINUS_ONE;
 
-    /** The integer 0 */
-    public static final Integer ZERO = IntegerInt.of(0);
+// Smart delegation
+if(value>=java.lang.Integer.MIN_VALUE&&value<=java.lang.Integer.MAX_VALUE){return IntegerInt.of((int)value);}else{return IntegerLong.of(value);}}
 
-    /** The integer 1 */
-    public static final Integer ONE = IntegerInt.of(1);
+/**
+ * Creates an integer from a BigInteger.
+ * Automatically selects optimal backing implementation.
+ * 
+ * @param value the value
+ * @return the Integer instance
+ * @throws IllegalArgumentException if value is null
+ */
+public static Integer of(BigInteger value){if(value==null){throw new IllegalArgumentException("Value cannot be null");}
 
-    /** The integer -1 */
-    public static final Integer MINUS_ONE = IntegerInt.of(-1);
+// Try to use smaller representation if possible
+if(value.bitLength()<31){ // < 31 bits fits in signed int (usually)
+// Safe check for int range
+try{return IntegerInt.of(value.intValueExact());}catch(ArithmeticException e){
+// Fallthrough
+}}
 
-    /**
-     * Creates an integer from a long value.
-     * Automatically selects optimal backing implementation.
-     * 
-     * @param value the value
-     * @return the Integer instance
-     */
-    public static Integer of(long value) {
-        if (value == 0)
-            return ZERO;
-        if (value == 1)
-            return ONE;
-        if (value == -1)
-            return MINUS_ONE;
+if(value.bitLength()<63){try{return IntegerLong.of(value.longValueExact());}catch(ArithmeticException e){
+// Fallthrough
+}}
 
-        // Smart delegation
-        if (value >= java.lang.Integer.MIN_VALUE && value <= java.lang.Integer.MAX_VALUE) {
-            return IntegerInt.of((int) value);
-        } else {
-            return IntegerLong.of(value);
-        }
-    }
+// Fallback checks for exact boundaries if bitLength is close
+if(value.compareTo(BigInteger.valueOf(java.lang.Integer.MAX_VALUE))<=0&&value.compareTo(BigInteger.valueOf(java.lang.Integer.MIN_VALUE))>=0){return IntegerInt.of(value.intValue());}
 
-    /**
-     * Creates an integer from a BigInteger.
-     * Automatically selects optimal backing implementation.
-     * 
-     * @param value the value
-     * @return the Integer instance
-     * @throws IllegalArgumentException if value is null
-     */
-    public static Integer of(BigInteger value) {
-        if (value == null) {
-            throw new IllegalArgumentException("Value cannot be null");
-        }
+if(value.compareTo(BigInteger.valueOf(java.lang.Long.MAX_VALUE))<=0&&value.compareTo(BigInteger.valueOf(java.lang.Long.MIN_VALUE))>=0){return IntegerLong.of(value.longValue());}
 
-        // Try to use smaller representation if possible
-        if (value.bitLength() < 31) { // < 31 bits fits in signed int (usually)
-            // Safe check for int range
-            try {
-                return IntegerInt.of(value.intValueExact());
-            } catch (ArithmeticException e) {
-                // Fallthrough
-            }
-        }
+return IntegerBig.of(value);}
 
-        if (value.bitLength() < 63) {
-            try {
-                return IntegerLong.of(value.longValueExact());
-            } catch (ArithmeticException e) {
-                // Fallthrough
-            }
-        }
+// Package-private constructor
+Integer(){}
 
-        // Fallback checks for exact boundaries if bitLength is close
-        if (value.compareTo(BigInteger.valueOf(java.lang.Integer.MAX_VALUE)) <= 0 &&
-                value.compareTo(BigInteger.valueOf(java.lang.Integer.MIN_VALUE)) >= 0) {
-            return IntegerInt.of(value.intValue());
-        }
+// --- Abstract operations ---
 
-        if (value.compareTo(BigInteger.valueOf(java.lang.Long.MAX_VALUE)) <= 0 &&
-                value.compareTo(BigInteger.valueOf(java.lang.Long.MIN_VALUE)) >= 0) {
-            return IntegerLong.of(value.longValue());
-        }
+/**
+ * Adds another integer.
+ * 
+ * @param other the addend
+ * @return this + other
+ */
+public abstract Integer add(Integer other);
 
-        return IntegerBig.of(value);
-    }
+/**
+ * Subtracts another integer.
+ * 
+ * @param other the subtrahend
+ * @return this - other
+ */
+public abstract Integer subtract(Integer other);
 
-    // Package-private constructor
-    Integer() {
-    }
+/**
+ * Multiplies by another integer.
+ * 
+ * @param other the multiplicand
+ * @return this × other
+ */
+public abstract Integer multiply(Integer other);
 
-    // --- Abstract operations ---
+/**
+ * Divides by another integer (integer division).
+ * 
+ * @param other the divisor
+ * @return this / other (truncated towards zero)
+ * @throws ArithmeticException if other is zero
+ */
+public abstract Integer divide(Integer other);
 
-    /**
-     * Adds another integer.
-     * 
-     * @param other the addend
-     * @return this + other
-     */
-    public abstract Integer add(Integer other);
+/**
+ * Computes the remainder of division.
+ * 
+ * @param other the divisor
+ * @return this % other
+ * @throws ArithmeticException if other is zero
+ */
+public abstract Integer remainder(Integer other);
 
-    /**
-     * Subtracts another integer.
-     * 
-     * @param other the subtrahend
-     * @return this - other
-     */
-    public abstract Integer subtract(Integer other);
+/**
+ * Returns the negation of this integer.
+ * 
+ * @return -this
+ */
+public abstract Integer negate();
 
-    /**
-     * Multiplies by another integer.
-     * 
-     * @param other the multiplicand
-     * @return this × other
-     */
-    public abstract Integer multiply(Integer other);
+/**
+ * Returns the absolute value of this integer.
+ * 
+ * @return |this|
+ */
+public abstract Integer abs();
 
-    /**
-     * Divides by another integer (integer division).
-     * 
-     * @param other the divisor
-     * @return this / other (truncated towards zero)
-     * @throws ArithmeticException if other is zero
-     */
-    public abstract Integer divide(Integer other);
+/**
+ * Returns true if this integer is zero.
+ */
+public abstract boolean isZero();
 
-    /**
-     * Computes the remainder of division.
-     * 
-     * @param other the divisor
-     * @return this % other
-     * @throws ArithmeticException if other is zero
-     */
-    public abstract Integer remainder(Integer other);
+/**
+ * Returns true if this integer is one.
+ */
+public abstract boolean isOne();
 
-    /**
-     * Returns the negation of this integer.
-     * 
-     * @return -this
-     */
-    public abstract Integer negate();
+/**
+ * Converts this integer to a long.
+ * 
+ * @return the long value
+ * @throws ArithmeticException if the value doesn't fit in a long
+ */
+public abstract long longValue();
 
-    /**
-     * Returns the absolute value of this integer.
-     * 
-     * @return |this|
-     */
-    public abstract Integer abs();
+/**
+ * Converts this integer to a BigInteger.
+ * 
+ * @return the BigInteger value (never null)
+ */
+public abstract BigInteger bigIntegerValue();
 
-    /**
-     * Returns true if this integer is zero.
-     */
-    public abstract boolean isZero();
+// --- Standard methods ---
 
-    /**
-     * Returns true if this integer is one.
-     */
-    public abstract boolean isOne();
+@Override public abstract boolean equals(Object obj);
 
-    /**
-     * Converts this integer to a long.
-     * 
-     * @return the long value
-     * @throws ArithmeticException if the value doesn't fit in a long
-     */
-    public abstract long longValue();
+@Override public abstract int hashCode();
 
-    /**
-     * Converts this integer to a BigInteger.
-     * 
-     * @return the BigInteger value (never null)
-     */
-    public abstract BigInteger bigIntegerValue();
+@Override public abstract String toString();
 
-    // --- Standard methods ---
+@Override public abstract int compareTo(Integer other);
 
-    @Override
-    public abstract boolean equals(Object obj);
+// --- Convenience Methods ---
 
-    @Override
-    public abstract int hashCode();
+/**
+ * Returns the signum function of this integer.
+ * 
+ * @return -1, 0 or 1 as the value of this integer is negative, zero or
+ *         positive.
+ */
+public int signum(){return compareTo(ZERO);}
 
-    @Override
-    public abstract String toString();
+/**
+ * Converts this integer to a double.
+ * 
+ * @return this integer as a double
+ */
+public double doubleValue(){return bigIntegerValue().doubleValue();}
 
-    @Override
-    public abstract int compareTo(Integer other);
-
-    // --- Convenience Methods ---
-
-    /**
-     * Returns the signum function of this integer.
-     * 
-     * @return -1, 0 or 1 as the value of this integer is negative, zero or
-     *         positive.
-     */
-    public int signum() {
-        return compareTo(ZERO);
-    }
-
-    /**
-     * Converts this integer to a double.
-     * 
-     * @return this integer as a double
-     */
-    public double doubleValue() {
-        return bigIntegerValue().doubleValue();
-    }
-
-    /**
-     * Returns the greatest common divisor of absolute value of this integer and
-     * absolute value of other integer.
-     * 
-     * @param other the other integer
-     * @return gcd(|this|, |other|)
-     */
-    public Integer gcd(Integer other) {
-        return Integer.of(this.bigIntegerValue().gcd(other.bigIntegerValue()));
-    }
-}
+/**
+ * Returns the greatest common divisor of absolute value of this integer and
+ * absolute value of other integer.
+ * 
+ * @param other the other integer
+ * @return gcd(|this|, |other|)
+ */
+public Integer gcd(Integer other){return Integer.of(this.bigIntegerValue().gcd(other.bigIntegerValue()));}}

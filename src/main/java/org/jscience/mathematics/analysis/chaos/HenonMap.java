@@ -23,6 +23,7 @@
 package org.jscience.mathematics.analysis.chaos;
 
 import org.jscience.mathematics.geometry.Point2D;
+import org.jscience.mathematics.number.Real;
 
 /**
  * The Hénon Map:
@@ -33,14 +34,20 @@ import org.jscience.mathematics.geometry.Point2D;
  * Classic values: a = 1.4, b = 0.3.
  * </p>
  * 
+ * <h2>References</h2>
+ * <ul>
+ * <li>Michel Hénon, "A two-dimensional mapping with a strange attractor",
+ * Communications in Mathematical Physics, Vol. 50, No. 1, 1976, pp. 69-77</li>
+ * </ul>
+ * 
  * @author Silvere Martin-Michiellot
  * @author Gemini AI (Google DeepMind)
  * @since 1.0
  */
 public class HenonMap implements DiscreteMap<Point2D> {
 
-    private final double a;
-    private final double b;
+    private final Real a;
+    private final Real b;
 
     /**
      * Creates a Hénon Map with default chaotic parameters (a=1.4, b=0.3).
@@ -50,25 +57,56 @@ public class HenonMap implements DiscreteMap<Point2D> {
     }
 
     /**
-     * Creates a Hénon Map with specified parameters.
+     * Creates a Hénon Map with specified parameters (double precision).
+     * <p>
+     * For arbitrary precision, use {@link #HenonMap(Real, Real)}.
+     * </p>
      * 
      * @param a parameter a
      * @param b parameter b
      */
     public HenonMap(double a, double b) {
+        this(Real.valueOf(a), Real.valueOf(b));
+    }
+
+    /**
+     * Creates a Hénon Map with specified parameters (arbitrary precision).
+     * 
+     * @param a parameter a
+     * @param b parameter b
+     */
+    public HenonMap(Real a, Real b) {
         this.a = a;
         this.b = b;
     }
 
     @Override
     public Point2D evaluate(Point2D p) {
-        double x = p.getX().doubleValue();
-        double y = p.getY().doubleValue();
+        Real x = p.getX();
+        Real y = p.getY();
 
-        double nextX = 1.0 - a * x * x + y;
-        double nextY = b * x;
+        Real nextX = Real.ONE.subtract(a.multiply(x).multiply(x)).add(y);
+        Real nextY = b.multiply(x);
 
         return Point2D.of(nextX, nextY);
+    }
+
+    /**
+     * Gets parameter a.
+     * 
+     * @return parameter a
+     */
+    public Real getA() {
+        return a;
+    }
+
+    /**
+     * Gets parameter b.
+     * 
+     * @return parameter b
+     */
+    public Real getB() {
+        return b;
     }
 
     @Override

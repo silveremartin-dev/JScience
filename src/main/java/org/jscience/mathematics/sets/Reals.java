@@ -21,89 +21,94 @@
  * SOFTWARE.
  */
 
-package org.jscience.mathematics.number.set;
+package org.jscience.mathematics.sets;
 
-import org.jscience.mathematics.algebra.Ring;
+import org.jscience.mathematics.algebra.Field;
 import org.jscience.mathematics.algebra.InfiniteSet;
-import org.jscience.mathematics.number.Integer;
+import org.jscience.mathematics.number.Real;
+import org.jscience.mathematics.number.Natural;
 
 /**
- * The structure of integers (ℤ = {..., -2, -1, 0, 1, 2, ...}).
+ * The structure of real numbers (ℝ).
  * <p>
- * This class represents the <strong>structure</strong> of integers,
- * not individual elements. It implements {@link Ring} because ℤ forms
- * a commutative ring with unity under addition and multiplication.
+ * This class represents the <strong>structure</strong> of real numbers,
+ * not individual elements. It implements {@link Field} because ℝ forms
+ * a field under addition and multiplication.
  * </p>
  * <p>
- * Integers are an infinite, countable set.
+ * Real numbers are an infinite, uncountable set.
  * </p>
  * 
  * <h2>Usage</h2>
  * 
  * <pre>{@code
- * Integers structure = Integers.getInstance();
- * Integer five = Integer.of(5);
- * Integer negThree = Integer.of(-3);
+ * Reals structure = Reals.getInstance();
+ * Real pi = Real.of(3.14159);
+ * Real two = Real.of(2.0);
  * 
  * // Use structure for operations
- * Integer two = structure.add(five, negThree);
- * Integer negFifteen = structure.multiply(five, negThree);
- * Integer negFive = structure.negate(five);
+ * Real twoPi = structure.multiply(pi, two);
+ * Real halfPi = structure.divide(pi, two);
  * }</pre>
  * 
- * @see Integer
+ * @see Real
  * @author Silvere Martin-Michiellot
  * @author Gemini AI (Google DeepMind)
  * @since 1.0
  */
-public final class Integers implements Ring<Integer>, InfiniteSet<Integer> {
+public final class Reals implements Field<Real>, InfiniteSet<Real> {
 
     /** Singleton instance */
-    private static final Integers INSTANCE = new Integers();
+    private static final Reals INSTANCE = new Reals();
 
     /**
      * Returns the singleton instance.
      * 
-     * @return the Integers structure
+     * @return the Reals structure
      */
-    public static Integers getInstance() {
+    public static Reals getInstance() {
         return INSTANCE;
     }
 
     /** Private constructor for singleton */
-    private Integers() {
+    private Reals() {
     }
 
-    // --- Ring Implementation ---
+    // --- Field Implementation ---
 
     @Override
-    public Integer operate(Integer a, Integer b) {
-        return add(a, b); // Ring operation is addition
+    public Real operate(Real a, Real b) {
+        return add(a, b); // Field operation is addition
     }
 
     @Override
-    public Integer add(Integer a, Integer b) {
+    public Real add(Real a, Real b) {
         return a.add(b);
     }
 
     @Override
-    public Integer zero() {
-        return Integer.ZERO;
+    public int characteristic() {
+        return 0;
     }
 
     @Override
-    public Integer negate(Integer element) {
+    public Real zero() {
+        return Real.ZERO;
+    }
+
+    @Override
+    public Real negate(Real element) {
         return element.negate();
     }
 
     @Override
-    public Integer multiply(Integer a, Integer b) {
+    public Real multiply(Real a, Real b) {
         return a.multiply(b);
     }
 
     @Override
-    public Integer one() {
-        return Integer.ONE;
+    public Real one() {
+        return Real.ONE;
     }
 
     @Override
@@ -112,24 +117,19 @@ public final class Integers implements Ring<Integer>, InfiniteSet<Integer> {
     }
 
     @Override
-    public Integer inverse(Integer element) {
-        // Integers don't have multiplicative inverses in general
-        if (element.isOne() || element.equals(Integer.MINUS_ONE)) {
-            return element; // Only ±1 are self-inverse
-        }
-        throw new UnsupportedOperationException(
-                "Multiplicative inverse not defined for integers (use Rationals instead)");
+    public Real inverse(Real element) {
+        return element.inverse();
     }
 
     // --- InfiniteSet Implementation ---
 
     @Override
     public boolean isCountable() {
-        return true; // ℤ is countably infinite
+        return false; // ℝ is uncountable
     }
 
     @Override
-    public boolean contains(Integer element) {
+    public boolean contains(Real element) {
         return element != null;
     }
 
@@ -140,11 +140,11 @@ public final class Integers implements Ring<Integer>, InfiniteSet<Integer> {
 
     @Override
     public String description() {
-        return "ℤ (Integers)";
+        return "ℝ (Real Numbers)";
     }
 
     @Override
     public String toString() {
-        return "Integers(ℤ)";
+        return "Reals(ℝ)";
     }
 }

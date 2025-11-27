@@ -31,6 +31,14 @@ import org.jscience.mathematics.number.Complex;
  * J_c = { z ∈ ℂ : the sequence z₀ = z, zₙ₊₁ = zₙ² + c remains bounded }
  * </p>
  * 
+ * <h2>References</h2>
+ * <ul>
+ * <li>Gaston Julia, "Mémoire sur l'itération des fonctions rationnelles",
+ * Journal de Mathématiques Pures et Appliquées, Vol. 8, 1918, pp. 47-245</li>
+ * <li>Benoit B. Mandelbrot, "The Fractal Geometry of Nature",
+ * W.H. Freeman and Company, 1982 (popularized Julia sets)</li>
+ * </ul>
+ * 
  * @author Silvere Martin-Michiellot (silvere.martin@gmail.com)
  * @author Gemini AI (Google DeepMind)
  * @since 1.0

@@ -23,17 +23,31 @@
 package org.jscience.mathematics.logic;
 
 /**
- * Temporal logic for reasoning about time and sequence of events.
+ * Modal logic for reasoning about necessity and possibility.
  * <p>
- * Linear Temporal Logic (LTL) extends propositional logic with temporal
- * operators:
+ * Modal logic extends classical logic with modal operators:
  * <ul>
- * <li>□ (Always/Globally) - true at all future times</li>
- * <li>◇ (Eventually/Finally) - true at some future time</li>
- * <li>○ (Next) - true in the next state</li>
- * <li>U (Until) - p U q means p holds until q becomes true</li>
+ * <li>□ (Box/Necessarily) - true in all possible worlds</li>
+ * <li>◇ (Diamond/Possibly) - true in at least one possible world</li>
  * </ul>
  * </p>
+ * <p>
+ * Common modal logic systems:
+ * <ul>
+ * <li><strong>K</strong>: Basic modal logic</li>
+ * <li><strong>T</strong>: K + reflexivity (□φ → φ)</li>
+ * <li><strong>S4</strong>: T + transitivity (□φ → □□φ)</li>
+ * <li><strong>S5</strong>: S4 + symmetry (◇φ → □◇φ)</li>
+ * </ul>
+ * </p>
+ * 
+ * <h2>References</h2>
+ * <ul>
+ * <li>Saul Kripke, "Semantical Considerations on Modal Logic",
+ * Acta Philosophica Fennica, Vol. 16, 1963, pp. 83-94</li>
+ * <li>C. I. Lewis and C. H. Langford, "Symbolic Logic",
+ * Century Company, 1932 (foundational work)</li>
+ * </ul>
  * 
  * @param <T> truth value type
  * 
@@ -41,42 +55,32 @@ package org.jscience.mathematics.logic;
  * @author Gemini AI (Google DeepMind)
  * @since 1.0
  */
-public interface TemporalLogic<T> extends Logic<T> {
+public interface ModalLogic<T> extends Logic<T> {
 
     /**
-     * Temporal operator: □φ (Always/Globally).
-     * True if φ is true at all future time points.
+     * Modal operator: □φ (Necessarily).
+     * True if φ is true in all accessible possible worlds.
      * 
      * @param proposition the proposition
      * @return □φ
      */
-    T always(Proposition<T> proposition);
+    T necessarily(Proposition<T> proposition);
 
     /**
-     * Temporal operator: ◇φ (Eventually/Finally).
-     * True if φ is true at some future time point.
+     * Modal operator: ◇φ (Possibly).
+     * True if φ is true in at least one accessible possible world.
      * 
      * @param proposition the proposition
      * @return ◇φ
      */
-    T eventually(Proposition<T> proposition);
+    T possibly(Proposition<T> proposition);
 
     /**
-     * Temporal operator: ○φ (Next).
-     * True if φ is true in the next state.
+     * Returns the modal logic system (K, T, S4, S5, etc.).
      * 
-     * @param proposition the proposition
-     * @return ○φ
+     * @return the system name
      */
-    T next(Proposition<T> proposition);
-
-    /**
-     * Temporal operator: φ U ψ (Until).
-     * True if φ holds until ψ becomes true.
-     * 
-     * @param p first proposition
-     * @param q second proposition
-     * @return p U q
-     */
-    T until(Proposition<T> p, Proposition<T> q);
+    default String getSystem() {
+        return "K"; // Basic modal logic
+    }
 }

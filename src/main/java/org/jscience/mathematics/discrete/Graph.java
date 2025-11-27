@@ -94,6 +94,43 @@ public interface Graph<V> {
     boolean isDirected();
 
     /**
+     * Traverses the graph using the specified strategy.
+     * <p>
+     * This method provides a flexible way to traverse the graph using
+     * any traversal algorithm implementation.
+     * </p>
+     * 
+     * @param start    the starting vertex
+     * @param strategy the traversal strategy to use
+     * @param visitor  the visitor to call for each vertex
+     */
+    default void traverse(V start,
+            org.jscience.mathematics.discrete.graph.GraphTraversalStrategy<V> strategy,
+            org.jscience.mathematics.discrete.graph.VertexVisitor<V> visitor) {
+        strategy.traverse(this, start, visitor);
+    }
+
+    /**
+     * Performs depth-first search (DFS) traversal.
+     * 
+     * @param start   the starting vertex
+     * @param visitor the visitor to call for each vertex
+     */
+    default void dfs(V start, org.jscience.mathematics.discrete.graph.VertexVisitor<V> visitor) {
+        traverse(start, new org.jscience.mathematics.discrete.graph.DFSTraversal<>(), visitor);
+    }
+
+    /**
+     * Performs breadth-first search (BFS) traversal.
+     * 
+     * @param start   the starting vertex
+     * @param visitor the visitor to call for each vertex
+     */
+    default void bfs(V start, org.jscience.mathematics.discrete.graph.VertexVisitor<V> visitor) {
+        traverse(start, new org.jscience.mathematics.discrete.graph.BFSTraversal<>(), visitor);
+    }
+
+    /**
      * Represents an edge in a graph.
      */
     interface Edge<V> {

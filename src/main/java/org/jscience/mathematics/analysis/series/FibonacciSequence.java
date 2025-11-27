@@ -22,7 +22,8 @@
  */
 package org.jscience.mathematics.analysis.series;
 
-import java.math.BigInteger;
+import org.jscience.mathematics.number.Integer;
+import org.jscience.mathematics.number.Natural;
 
 /**
  * Fibonacci sequence: F(0) = 0, F(1) = 1, F(n) = F(n-1) + F(n-2).
@@ -37,19 +38,19 @@ import java.math.BigInteger;
 public class FibonacciSequence implements IntegerSequence {
 
     @Override
-    public BigInteger get(int n) {
-        if (n < 0)
-            throw new IllegalArgumentException("n must be ≥ 0");
-        if (n == 0)
-            return BigInteger.ZERO;
-        if (n == 1)
-            return BigInteger.ONE;
+    public Integer get(Natural n) {
+        int nInt = n.intValue();
 
-        BigInteger a = BigInteger.ZERO;
-        BigInteger b = BigInteger.ONE;
+        if (nInt == 0)
+            return Integer.ZERO;
+        if (nInt == 1)
+            return Integer.ONE;
 
-        for (int i = 2; i <= n; i++) {
-            BigInteger temp = a.add(b);
+        Integer a = Integer.ZERO;
+        Integer b = Integer.ONE;
+
+        for (int i = 2; i <= nInt; i++) {
+            Integer temp = a.add(b);
             a = b;
             b = temp;
         }
@@ -58,7 +59,7 @@ public class FibonacciSequence implements IntegerSequence {
     }
 
     @Override
-    public String getOeisId() {
+    public String getOEISId() {
         return "A000045";
     }
 

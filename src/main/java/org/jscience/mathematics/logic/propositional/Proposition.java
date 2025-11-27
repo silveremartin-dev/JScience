@@ -1,4 +1,4 @@
-package org.jscience.mathematics.logic;
+package org.jscience.mathematics.logic.propositional;
 
 /**
  * Represents a logical proposition.

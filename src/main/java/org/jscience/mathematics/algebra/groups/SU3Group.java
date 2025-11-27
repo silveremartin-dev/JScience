@@ -1,26 +1,8 @@
-package org.jscience.mathematics.algebra.group;
-
-import org.jscience.mathematics.algebra.Group;
-import org.jscience.mathematics.vector.Matrix;
-import org.jscience.mathematics.vector.DenseMatrix;
-import org.jscience.mathematics.number.Complex;
-import org.jscience.mathematics.number.set.Complexes;
-import java.util.Arrays;
-import java.util.ArrayList;
-import java.util.List;
-
-/**
- * Represents the Special Unitary Group SU(3).
- * <p>
- * The group of 3x3 unitary matrices with determinant 1.
- * Important in quantum chromodynamics (QCD).
- * </p>
- * 
- * @author Silvere Martin-Michiellot
- * @author Gemini AI (Google DeepMind)
- * @since 1.0
- */
-public class SU3Group implements Group<Matrix<Complex>> {
+*<p>*The group of 3 x3 unitary matrices with determinant 1.*Important in quantum chromodynamics(QCD).*</p>**
+@author Silvere Martin-Michiellot*
+@author Gemini AI(Google DeepMind)*
+@since
+1.0*/public class SU3Group implements Group<Matrix<Complex>> {
 
     private static final SU3Group INSTANCE = new SU3Group();
 

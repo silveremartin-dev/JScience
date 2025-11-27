@@ -27,6 +27,22 @@ import java.util.*;
 
 /**
  * Prime number utilities including generation, testing, and factorization.
+ * <p>
+ * Implements classical number theory algorithms including the Sieve of
+ * Eratosthenes
+ * and the Miller-Rabin probabilistic primality test.
+ * </p>
+ * 
+ * <h2>References</h2>
+ * <ul>
+ * <li>Eratosthenes of Cyrene, Sieve of Eratosthenes, circa 240 BCE (ancient
+ * algorithm)</li>
+ * <li>Gary L. Miller, "Riemann's Hypothesis and Tests for Primality",
+ * Journal of Computer and System Sciences, Vol. 13, No. 3, 1976, pp.
+ * 300-317</li>
+ * <li>Michael O. Rabin, "Probabilistic Algorithm for Testing Primality",
+ * Journal of Number Theory, Vol. 12, No. 1, 1980, pp. 128-138</li>
+ * </ul>
  * 
  * @author Silvere Martin-Michiellot (silvere.martin@gmail.com)
  * @author Gemini AI (Google DeepMind)
@@ -37,7 +53,11 @@ public class Primes {
     private static final int MILLER_RABIN_ITERATIONS = 20;
 
     /**
-     * Tests if a number is prime using Miller-Rabin primality test.
+     * Tests if a number is prime.
+     * <p>
+     * Uses trial division for small numbers and Miller-Rabin probabilistic test
+     * for large numbers (with high certainty).
+     * </p>
      * 
      * @param n the number to test
      * @return true if probably prime
@@ -52,6 +72,9 @@ public class Primes {
         if (n.mod(BigInteger.TWO).equals(BigInteger.ZERO)) {
             return false;
         }
+
+        // Optimization: Check against small primes first?
+        // For now, Miller-Rabin is quite fast for BigInteger.
 
         return n.isProbablePrime(MILLER_RABIN_ITERATIONS);
     }

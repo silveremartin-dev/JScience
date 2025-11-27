@@ -26,6 +26,19 @@ import java.util.*;
 
 /**
  * Graph algorithms including traversal, shortest paths, and connectivity.
+ * <p>
+ * Implements classic graph algorithms for analyzing graph structures and
+ * finding
+ * optimal paths.
+ * </p>
+ * 
+ * <h2>References</h2>
+ * <ul>
+ * <li>Edsger W. Dijkstra, "A Note on Two Problems in Connexion with Graphs",
+ * Numerische Mathematik, Vol. 1, 1959, pp. 269-271</li>
+ * <li>Thomas H. Cormen et al., "Introduction to Algorithms", 3rd Edition,
+ * MIT Press, 2009 (comprehensive coverage of graph algorithms)</li>
+ * </ul>
  * 
  * @author Silvere Martin-Michiellot (silvere.martin@gmail.com)
  * @author Gemini AI (Google DeepMind)

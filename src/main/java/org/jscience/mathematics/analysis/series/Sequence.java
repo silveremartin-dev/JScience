@@ -22,13 +22,20 @@
  */
 package org.jscience.mathematics.analysis.series;
 
-import org.jscience.mathematics.analysis.MathematicalFunction;
+import org.jscience.mathematics.analysis.Function;
+import org.jscience.mathematics.number.Natural;
 
 /**
  * A mathematical sequence a(n) for n ≥ 0.
  * <p>
  * A sequence is a function from natural numbers to type T: ℕ → T.
  * Compatible with OEIS (Online Encyclopedia of Integer Sequences) format.
+ * </p>
+ * <p>
+ * This interface uses JScience {@link Natural} numbers for indices to enforce
+ * the mathematical constraint that sequence indices are non-negative.
+ * Convenience methods accepting primitive {@code int} are provided for
+ * ergonomics.
  * </p>
  * 
  * @param <T> the type of elements in this sequence
@@ -37,73 +44,94 @@ import org.jscience.mathematics.analysis.MathematicalFunction;
  * @author Gemini AI (Google DeepMind)
  * @since 1.0
  */
-public interface Sequence<T> extends MathematicalFunction<Integer, T> {
+public interface Sequence<T> extends Function<Natural, T> {
 
     /**
      * Returns the n-th term of the sequence (0-indexed).
+     * <p>
+     * This is the canonical method using JScience number types.
+     * </p>
      * 
      * @param n the index (n ≥ 0)
      * @return a(n)
-     * @throws IllegalArgumentException if n < 0
+     * @throws IllegalArgumentException if n is negative
      */
-    T get(int n);
+    T get(Natural n);
 
     /**
-     * Function interface implementation - delegates to get().
+     * Function interface implementation - delegates to get(Natural).
      * 
      * @param n the index
      * @return a(n)
      */
     @Override
-    default T apply(Integer n) {
+    default T evaluate(Natural n) {
         return get(n);
     }
 
     /**
-     * MathematicalFunction interface implementation - delegates to get().
+     * Convenience method for primitive int indices.
+     * <p>
+     * Delegates to {@link #get(Natural)} after converting to Natural.
+     * </p>
+     * 
+     * @param n the index (must be ≥ 0)
+     * @return a(n)
+     * @throws IllegalArgumentException if n < 0
+     */
+    default T get(int n) {
+        if (n < 0) {
+            throw new IllegalArgumentException("Sequence index must be non-negative: " + n);
+        }
+        return get(Natural.valueOf(n));
+    }
+
+    /**
+     * Function interface implementation - delegates to get(Natural).
      * 
      * @param n the index
      * @return a(n)
      */
     @Override
-    default T evaluate(Integer n) {
+    default T apply(Natural n) {
+        return get(n);
+    }
+
+    @Override
+    default T evaluate(Natural n) {
         return get(n);
     }
 
     @Override
     default String getDomain() {
-        return "ℕ";
-    }
-
-    @Override
-    default String getCodomain() {
-        return "?";
+        return "ℕ (Natural numbers)";
     }
 
     /**
-     * Returns the OEIS identifier if applicable (e.g., "A000045" for Fibonacci).
+     * Returns the OEIS (Online Encyclopedia of Integer Sequences) identifier.
+     * For example, "A000045" for Fibonacci numbers.
      * 
-     * @return OEIS ID or null
+     * @return OEIS ID or null if not catalogued
      */
-    default String getOeisId() {
+    default String getOEISId() {
         return null;
     }
 
     /**
-     * Returns the human-readable name of this sequence.
+     * Returns a human-readable name for this sequence.
      * 
      * @return sequence name
      */
     default String getName() {
-        return getClass().getSimpleName();
+        return this.getClass().getSimpleName();
     }
 
     /**
-     * Returns the mathematical formula for this sequence (if known).
+     * Returns a formula or description of how terms are computed.
      * 
-     * @return formula string or null
+     * @return mathematical formula or description
      */
     default String getFormula() {
-        return null;
+        return "Not specified";
     }
 }

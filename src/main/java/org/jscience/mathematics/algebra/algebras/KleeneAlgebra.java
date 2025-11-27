@@ -23,6 +23,16 @@ import org.jscience.mathematics.algebra.Semiring;
  * where a ≤ b is defined as a + b = b.
  * </p>
  * 
+ * <h2>References</h2>
+ * <ul>
+ * <li>Stephen Cole Kleene, "Representation of Events in Nerve Nets and Finite
+ * Automata",
+ * in Automata Studies, Princeton University Press, 1956, pp. 3-41</li>
+ * <li>Dexter Kozen, "A Completeness Theorem for Kleene Algebras and the Algebra
+ * of Regular Events",
+ * Information and Computation, Vol. 110, No. 2, 1994, pp. 366-390</li>
+ * </ul>
+ * 
  * @param <E> the type of elements
  * 
  * @author Silvere Martin-Michiellot

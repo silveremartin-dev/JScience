@@ -1,23 +1,4 @@
-package org.jscience.mathematics.algebra.group;
-
-import org.jscience.mathematics.algebra.Group;
-import org.jscience.mathematics.vector.Matrix;
-import org.jscience.mathematics.vector.DenseMatrix;
-import org.jscience.mathematics.number.Complex;
-import org.jscience.mathematics.number.set.Complexes;
-import java.util.Arrays;
-import java.util.ArrayList;
-import java.util.List;
-
-/**
- * Represents the Special Unitary Group SU(2).
- * <p>
- * The group of 2x2 unitary matrices with determinant 1.
- * Isomorphic to the group of unit quaternions.
- * Important in quantum mechanics (spin 1/2).
- * </p>
- * 
- * @author Silvere Martin-Michiellot
+*<p>*The group of 2 x2 unitary matrices with determinant 1.*Isomorphic to the group of unit quaternions.*Important in quantum mechanics(spin 1/2).*</p>**@author Silvere Martin-Michiellot
  * @author Gemini AI (Google DeepMind)
  * @since 1.0
  */

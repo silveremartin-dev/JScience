@@ -22,7 +22,7 @@
  */
 package org.jscience.mathematics.analysis.acceleration;
 
-import org.jscience.mathematics.analysis.MathematicalFunction;
+import org.jscience.mathematics.analysis.Function;
 import java.util.stream.DoubleStream;
 
 /**
@@ -58,7 +58,7 @@ public class CPUBackend implements ComputeBackend {
     }
 
     @Override
-    public double[] evaluate(MathematicalFunction<Double, Double> f, double[] inputs) {
+    public double[] evaluate(Function<Double, Double> f, double[] inputs) {
         DoubleStream stream = DoubleStream.of(inputs);
 
         if (parallel) {

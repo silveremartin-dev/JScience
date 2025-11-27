@@ -22,34 +22,99 @@
  */
 package org.jscience.mathematics.analysis.chaos;
 
+import org.jscience.mathematics.number.Real;
+
 /**
  * The Logistic Map: x_{n+1} = r * x_n * (1 - x_n).
  * <p>
  * A classic example of how complex, chaotic behaviour can arise from very
- * simple
- * non-linear dynamical equations.
+ * simple non-linear dynamical equations. The logistic map exhibits a
+ * period-doubling
+ * route to chaos as the parameter r increases.
+ * </p>
+ * <p>
+ * <b>Parameter Ranges:</b>
+ * <ul>
+ * <li>0 ≤ r ≤ 1: Population dies out</li>
+ * <li>1 < r < 3: Converges to (r-1)/r</li>
+ * <li>3 ≤ r < 1+√6 ≈ 3.45: Oscillates between two values</li>
+ * <li>r ≈ 3.57: Period-doubling cascade to chaos</li>
+ * <li>r = 4: Fully chaotic on [0, 1]</li>
+ * </ul>
  * </p>
  * 
- * @author Silvere Martin-Michiellot
+ * <h3>References</h3>
+ * <ul>
+ * <li>May, Robert M. (1976). "Simple mathematical models with very complicated
+ * dynamics".
+ * <i>Nature</i>. <b>261</b> (5560): 459–467. doi:10.1038/261459a0</li>
+ * <li><a href="https://en.wikipedia.org/wiki/Logistic_map">Wikipedia: Logistic
+ * map</a></li>
+ * </ul>
+ * 
+ * @author Robert M. May (original mathematical model, 1976)
+ * @author Silvere Martin-Michiellot (implementation)
  * @author Gemini AI (Google DeepMind)
  * @since 1.0
  */
 public class LogisticMap implements DiscreteMap<Double> {
 
-    private final double r;
+    private final Real r;
 
     /**
-     * Creates a Logistic Map with parameter r.
+     * Creates a Logistic Map with parameter r (double precision).
+     * <p>
+     * For arbitrary precision, use {@link #LogisticMap(Real)}.
+     * </p>
      * 
      * @param r the growth rate parameter (typically [0, 4])
      */
     public LogisticMap(double r) {
+        this(Real.valueOf(r));
+    }
+
+    /**
+     * Creates a Logistic Map with parameter r (arbitrary precision).
+     * 
+     * @param r the growth rate parameter (typically [0, 4])
+     */
+    public LogisticMap(Real r) {
         this.r = r;
     }
 
     @Override
     public Double evaluate(Double x) {
-        return r * x * (1.0 - x);
+        return iterate(x);
+    }
+
+    /**
+     * Iterates the logistic map (double precision).
+     * 
+     * @param x current value
+     * @return next value: r * x * (1 - x)
+     */
+    public double iterate(double x) {
+        return iterate(Real.valueOf(x)).doubleValue();
+    }
+
+    /**
+     * Iterates the logistic map (arbitrary precision).
+     * 
+     * @param x current value
+     * @return next value: r * x * (1 - x)
+     */
+    public Real iterate(Real x) {
+        // x_{n+1} = r * x_n * (1 - x_n)
+        return r.multiply(x).multiply(Real.ONE.subtract(x));
+    }
+
+    /**
+     * Returns the growth rate parameter.
+     * 
+     * @return r parameter
+     */
+    public Real getR() {
+        return r;
     }
 
     @Override

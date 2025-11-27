@@ -22,7 +22,7 @@
  */
 package org.jscience.mathematics.analysis.chaos;
 
-import org.jscience.mathematics.analysis.MathematicalFunction;
+import org.jscience.mathematics.analysis.Function;
 
 /**
  * A discrete dynamical system defined by an iterative map.
@@ -36,7 +36,7 @@ import org.jscience.mathematics.analysis.MathematicalFunction;
  * @author Gemini AI (Google DeepMind)
  * @since 1.0
  */
-public interface DiscreteMap<T> extends MathematicalFunction<T, T> {
+public interface DiscreteMap<T> extends Function<T, T> {
 
     /**
      * Iterates the map n times starting from x0.

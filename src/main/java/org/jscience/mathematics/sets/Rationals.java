@@ -1,4 +1,4 @@
-package org.jscience.mathematics.number.set;
+package org.jscience.mathematics.sets;
 
 import org.jscience.mathematics.algebra.Field;
 import org.jscience.mathematics.algebra.InfiniteSet;

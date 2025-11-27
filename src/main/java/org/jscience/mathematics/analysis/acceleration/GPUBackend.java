@@ -22,7 +22,7 @@
  */
 package org.jscience.mathematics.analysis.acceleration;
 
-import org.jscience.mathematics.analysis.MathematicalFunction;
+import org.jscience.mathematics.analysis.Function;
 import org.jocl.*;
 
 import static org.jocl.CL.*;
@@ -109,7 +109,7 @@ public class GPUBackend implements ComputeBackend {
     }
 
     @Override
-    public double[] evaluate(MathematicalFunction<Double, Double> f, double[] inputs) {
+    public double[] evaluate(Function<Double, Double> f, double[] inputs) {
         if (!available) {
             throw new UnsupportedOperationException("GPU acceleration is not available on this system.");
         }

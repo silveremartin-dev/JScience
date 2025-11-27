@@ -22,7 +22,7 @@
  */
 package org.jscience.mathematics.analysis.acceleration;
 
-import org.jscience.mathematics.analysis.MathematicalFunction;
+import org.jscience.mathematics.analysis.Function;
 
 /**
  * Interface for computational backends (CPU, GPU, FPGA).
@@ -60,7 +60,7 @@ public interface ComputeBackend {
      * @param inputs array of input values
      * @return array of results
      */
-    double[] evaluate(MathematicalFunction<Double, Double> f, double[] inputs);
+    double[] evaluate(Function<Double, Double> f, double[] inputs);
 
     /**
      * Batch evaluates a function on an array of inputs (generic).

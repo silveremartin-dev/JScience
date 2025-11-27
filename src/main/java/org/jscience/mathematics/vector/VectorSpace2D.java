@@ -1,18 +1,4 @@
-package org.jscience.mathematics.vector;
-
-import org.jscience.mathematics.algebra.VectorSpace;
-import org.jscience.mathematics.number.Real;
-import org.jscience.mathematics.number.set.Reals;
-import java.util.Arrays;
-import java.util.List;
-
-/**
- * Represents a 2-dimensional Real Vector Space (R^2).
- * <p>
- * Optimized for 2D geometry and physics.
- * </p>
- * 
- * @author Silvere Martin-Michiellot
+*Optimized for 2D geometry and physics.*</p>**@author Silvere Martin-Michiellot
  * @author Gemini AI (Google DeepMind)
  * @since 1.0
  */

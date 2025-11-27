@@ -13,6 +13,15 @@ import org.jscience.mathematics.number.Real;
  * </ul>
  * </p>
  * 
+ * <h2>References</h2>
+ * <ul>
+ * <li>Lotfi A. Zadeh, "Fuzzy Sets", Information and Control,
+ * Vol. 8, No. 3, 1965, pp. 338-353 (foundational paper)</li>
+ * <li>George J. Klir and Bo Yuan, "Fuzzy Sets and Fuzzy Logic: Theory and
+ * Applications",
+ * Prentice Hall, 1995</li>
+ * </ul>
+ * 
  * @author Silvere Martin-Michiellot
  * @author Gemini AI (Google DeepMind)
  * @since 1.0
