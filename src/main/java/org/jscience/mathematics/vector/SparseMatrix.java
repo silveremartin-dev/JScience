@@ -7,8 +7,8 @@ import java.util.Map;
 import org.jscience.mathematics.algebra.Field;
 import org.jscience.mathematics.context.ComputeContext;
 import org.jscience.mathematics.context.ComputeMode;
-import org.jscience.mathematics.provider.JavaLinearAlgebraProvider;
-import org.jscience.mathematics.provider.LinearAlgebraProvider;
+import org.jscience.mathematics.vector.backend.JavaLinearAlgebraProvider;
+import org.jscience.mathematics.vector.backend.LinearAlgebraProvider;
 
 /**
  * A sparse matrix implementation backed by a Map.

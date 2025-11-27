@@ -1,4 +1,4 @@
-package org.jscience.mathematics.provider;
+package org.jscience.mathematics.vector.backend;
 
 import java.util.ArrayList;
 import java.util.List;

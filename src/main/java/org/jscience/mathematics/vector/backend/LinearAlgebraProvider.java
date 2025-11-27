@@ -1,4 +1,4 @@
-package org.jscience.mathematics.provider;
+package org.jscience.mathematics.vector.backend;
 
 import org.jscience.mathematics.vector.Matrix;
 import org.jscience.mathematics.vector.Vector;

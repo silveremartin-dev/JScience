@@ -28,8 +28,8 @@ import java.util.List;
 import org.jscience.mathematics.algebra.Field;
 import org.jscience.mathematics.context.ComputeContext;
 import org.jscience.mathematics.context.ComputeMode;
-import org.jscience.mathematics.provider.JavaLinearAlgebraProvider;
-import org.jscience.mathematics.provider.LinearAlgebraProvider;
+import org.jscience.mathematics.vector.backend.JavaLinearAlgebraProvider;
+import org.jscience.mathematics.vector.backend.LinearAlgebraProvider;
 
 /**
  * A dense vector implementation backed by a list.
